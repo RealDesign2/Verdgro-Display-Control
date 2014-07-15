@@ -1,0 +1,126 @@
+<h3><span id="OptionsTitle">Options</span></h3>
+
+
+<!-- Accordion -->
+
+<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+    <div data-role="collapsible" >
+        <h3><span id="TabLanguage">Language</span></h3>
+		<select onChange="LanguageChange(this.value);" id="selLanguages"></select>
+    </div>
+	
+    <div data-role="collapsible">
+        <h3><span id="TabPortal">Portal</span></h3>	
+		<div id="divPortalText">Provide portal username and password below. With these credentials we will connect to the portal.</div>
+		<br />
+		<div id="divUsername">Username</div>
+		<input type="text" name="UserName" id="PortalUser">
+		<div id="divPassword">Password</div>
+		<input type="password" name="Password" id="PortalPass">
+		<button type="button" data-icon="check" data-iconpos="left" data-mini="true" data-inline="true" onClick="OptionsSaveUserPass()"><span id="ButtonSave">Save</span></button>	
+    </div>
+	
+	 <div data-role="collapsible">
+        <h3><span id="TabUpdate">Check for updates</span></h3>
+		<div id="divUpdateCheck">
+			<button type="button" data-icon="eye" data-iconpos="left" data-mini="true" onClick="OptionsUpdateCheck();"><span id="ButtonCheck">Check for update</span></button>	
+		</div>
+		<div id="divUpdateDownload">			
+			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" onClick="OptionsUpdateDownload()"><span id="ButtonDownload">Download Latest version</span></button>
+		</div>
+		<div id="divUpdateStatus">
+			
+		</div>
+    </div>
+</div>
+
+<script>
+	var sLatestVersion = "";
+	//navigatie instellen.
+	$("#btnBack").show();	
+	$("#btnHome").show();
+	
+	//Combobox vullen
+	LanguageFillCombo('selLanguages');
+	
+	//standaard waarden vullen
+	//Wachtwoord
+	$("#PortalUser").val(appSettings.PortalUser);
+	$("#PortalPass").val(appSettings.PortalPass);
+	
+	//Update
+	$("#divUpdateCheck").show();
+	$("#divUpdateDownload").hide();
+	$("#divUpdateStatus").html("");
+	
+	
+	//Vertaling instellen.	
+	$("#OptionsTitle").html(jLang.OptionsTitle);
+	$("#TabLanguage").html(jLang.OptionsTabLanguage);
+	$("#TabPortal").html(jLang.OptionsTabPortal);
+	$("#TabUpdate").html(jLang.OptionsTabUpdate);	
+	$("#divPortalText").html(jLang.OptionsPortalInfotext);	
+	$("#ButtonSave").html(jLang.Save);
+	$("#divUsername").html(jLang.OptionsPortalUser);
+	$("#divPassword").html(jLang.OptionsPortalPass);
+	$("#ButtonCheck").html(jLang.OptionsUpdateButtonCheck);
+	$("#ButtonDownload").html(jLang.OptionsUpdateButtonDownload);	
+	
+	function OptionsSaveUserPass() {
+		appSettings.PortalUser = $("#PortalUser").val();
+		appSettings.PortalPass = $("#PortalPass").val();
+		window.localStorage.appSettings = JSON.stringify(appSettings);	
+		alert(jLang.OptionsPortalSaved);
+	} 
+	
+	function OptionsUpdateCheck() {
+		var url = URLPortal + "app/VersionLast.json.asp"
+		var sResult = "";
+		//alert(url);
+		$.ajax(
+			{
+				//dataType: "json",
+				url: url,
+				encoding: "UTF-8",
+				async: false,
+				timeout: 2000,
+				cache: false
+			})
+			.done(function( data ) {					
+				//alert(data.Version);
+				var sVersie = Versie;
+                sVersie = sVersie.replace('T', '');              //T van Test eraf halen
+                sVersie = sVersie.replace('L', '');              //L van Live eraf halen
+                sVersie = sVersie.replace('.', '');               //. van scheiding verwijderen
+                sVersie = sVersie.replace('.', '');               //. van scheiding verwijderen
+				if (parseInt(data.Version) > parseInt(sVersie)) {
+					//Nieuwe versie beschikbaar.
+					$("#divUpdateCheck").hide();
+					$("#divUpdateDownload").show();
+					$("#divUpdateStatus").html(jLang.OptionsUpdateNewUpdate  + " (" + data.Version + ")");
+					sLatestVersion = data.Version
+				} else {
+					//Geen nieuwe versie beschikbaar
+					$("#divUpdateCheck").show();
+					$("#divUpdateDownload").hide();
+					$("#divUpdateStatus").html(jLang.OptionsUpdateNoNewUpdate);
+				} 
+					
+			})		
+			.fail(function( jqXHR, textStatus ) {
+				if (IsDebug == true) { 
+					$("#divUpdateStatus").html("FAILURE (GetLibraryPortal)<br/>Status : " + jqXHR.status + "<br/>Message : " + jqXHR.responseText);
+				} else {
+					$("#divUpdateStatus").html("<br>" + jLang.LibraryNoInternet + "<br><br>");
+				} 				
+			}		
+		);
+	} 
+	
+	function OptionsUpdateDownload() {
+		var url = URLPortal + "app/apk/VDC" + sLatestVersion + ".apk"
+		//alert(url);
+		openURL(url);
+	} 
+	
+</script>

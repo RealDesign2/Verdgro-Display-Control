@@ -1,0 +1,24 @@
+<center>
+	<br>
+	<b>This app requires a connection.</b>
+	<br><br>
+	<img src="img/noconnection.png" border="0">
+	<br><br>
+	You can't continue.
+	<br>
+	<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" data-inline="true" onClick="navigator.app.exitApp();" id="cmdRefresh"><span id="DirectButtonRefresh">Close app</span></button>	
+	
+	
+</center>
+
+
+<script>
+
+	$("#btnBack").hide();
+	$("#btnMenu").hide();
+	$("#btnLogOff").hide();
+	$("#btnChange").hide();
+	$("#btnHome").hide();
+	document.removeEventListener('backbutton',onBackKeyDown); //voor windows phone
+
+</script>
