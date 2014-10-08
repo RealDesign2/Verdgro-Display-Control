@@ -15,7 +15,7 @@
 	
 	"HomeMenuDirectConnect"					: "Direct Connect",
 	"HomeMenuInternetConnect"				: "Internet Connect",
-	"HomeMenuManageLibrary"					: "Library",
+	"HomeMenuManageLibrary"					: "Manage Libraries",
 	"HomeMenuOptions"						: "Options",
 	"HomeMenuWebsiteVerdegro"				: "Website Verdegro",
 	"HomeMenuWebsiteDebug"					: "Debug",
@@ -44,7 +44,7 @@
 	"OptionsPortalUser"						: "Username",
 	"OptionsPortalPass"						: "Password",
 	"OptionsPortalInfotext"					: "Provide portal username and password below. With these credentials we will connect to the portal.",
-	"OptionsPortalSaved"					: "Portalsettings saved",
+	"OptionsPortalSaved"					: "Portal settings saved",
 	"OptionsUpdateButtonCheck"				: "Check for update",
 	"OptionsUpdateButtonDownload"			: "Download latest version",
 	"OptionsUpdateNewUpdate"				: "New version available",
@@ -57,7 +57,7 @@
 	"ShowButtonSendShow"					: "Send show to display and play",
 	"ShowButtonClearShow"					: "Clear complete show",
 	"ShowNoShowAvailabe"					: "No show available",
-	
+		
 	"DirectTabStatus"						: "Status",
 	"DirectTabEditShow"						: "Edit show",
 	"DirectCurrentShow"						: "Current show",
@@ -67,13 +67,15 @@
 	"DirectButtonEditShow"					: "Edit this show",
 	"DirectController"						: "Controller",
 	"DirectDisplay"							: "Display",
-	"DirectErrorGettingPlaylist"			: "Error getting playlist",
+	"DirectErrorGettingPlaylist"			: "Error getting play-list",
+	"DirectTextCheckingController"			: "Getting information form LED-screen. One moment...",
+	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.",
 	
 	"StatusBrightnessMode"					: "Brightness mode",
 	"StatusBrightnessValue"					: "Brightness value",
-	"StatusPowermode"						: "Powermode / Pause",
+	"StatusPowermode"						: "Power mode / Pause",
 	"StatusDisplayName"						: "Name",
-	"StatusDisplayScreensize"				: "Screensize (W x H)",
-	"StatusDisplayPixeldetection"			: "Pixeldetection"
+	"StatusDisplayScreensize"				: "Screen size (W x H)",
+	"StatusDisplayPixeldetection"			: "Pixel detection"
 	
 } 

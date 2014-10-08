@@ -193,11 +193,10 @@ function QSSendShow(jShow) {
 
 // ***** HULPFUNCTIES *****
 
-//Deze functie verstuurd de data daadwerkelijk naar de computer en geeft een 
-function SendData(sFunction, jPostData, contentType) {	
-	contentType = contentType || "UTF-8"
-	var sURL = "";
-	var sXML = "nu";
+//Deze functie doet een synchrone call 
+function GetURL(sFunction)
+{
+	var sURL = "";	
 	//afhankelijk van type verbinding juiste URL opbouwen.	
 	if (IsDirectConnect == true) {
 		sURL = URLExternal.replace("<ip>", IPDirectConnect);		
@@ -205,6 +204,23 @@ function SendData(sFunction, jPostData, contentType) {
 		sURL = URLExternal.replace("<ip>", "SomeIP");
 	} 	
 	sURL = sURL + sFunction + '.php'
+	//alert(sURL);
+	return sURL
+} 
+
+//Deze functie verstuurd de data daadwerkelijk naar de computer en geeft een 
+function SendData(sFunction, jPostData, contentType) {	
+	contentType = contentType || "UTF-8"
+	var sURL = "";
+	var sXML = "nu";
+	//afhankelijk van type verbinding juiste URL opbouwen.	
+	//if (IsDirectConnect == true) {
+	//	sURL = URLExternal.replace("<ip>", IPDirectConnect);		
+	//} else {
+	//	sURL = URLExternal.replace("<ip>", "SomeIP");
+	//} 	
+	//sURL = sURL + sFunction + '.php'
+	sURL = GetURL(sFunction);
 	//alert(sURL)
 	//Indien het fout gaat ook een melding van geven.
 	$.ajax(

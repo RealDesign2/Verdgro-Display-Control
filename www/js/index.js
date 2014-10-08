@@ -1,24 +1,26 @@
 
 //Instellingen
 
-var IsDebug = false;							//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
-var Versie = "1.0.3";							//Versie ook aanpassen in config.xml voor build
+var IsDebug = true;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
+var Versie = "1.0.4";							//Versie ook aanpassen in config.xml voor build
 var IsDirectConnect = true;						//Aangeven of we een direct connectie hebben op IP
 
-var Title="Display Controll";					//Titel die boven aan de app komt te staan
+var Title="Display Control";					//Titel die boven aan de app komt te staan
 var URLHomePage = "home.html";					//Homepage die standaard geopend wordt binnen de APP	
 var URLExternal = "http://<ip>/RasPi/";			//Pad naar de bestanden voor het PHP protocol
 var IPDirectConnect = "192.168.0.1";			//IP-adres wat we moeten gebruiken inden we direct connectie hebben.
 var URLPortal = "http://portal.verdegro.com/";	//URL van het portaal. Hier halen we externe informatie vandaan.
 var PHPUser = "admin"							//Gebruiker voor PHP communicatie
 var PHPPass = "12345678"						//Wachtwoord voor PHP communicatie
-var AlertTitle = "Display Controll";			//Indien er een alert wordt gegeven (via phonegap). Krijgt de alertbox deze titel.
+var AlertTitle = "Display Control";				//Indien er een alert wordt gegeven (via phonegap). Krijgt de alertbox deze titel.
 var AjaxControllerTimeout = 5000;				//Tijd in ms dat een transactie naar de tekstwagen mag duren.
 var ShowDefaultSlideTime = 5;					//standaard tijd voor de dia
 var ShowDefaultSlideMax = 10;					//Maximum van aantal slides in show
 
-//om naar de juist tab te gaan binnen direct.html
-var  DirectShowTab = 'tabOne';
+//Applicatie brede variabelen, maar die elke 
+//keer dat de app gestart wordt worden gereset
+var  DirectShowTab = 'tabOne';														//direct.html - om naar de juist tab
+var  DirectControllerInfo = JSON.parse(JSON.stringify(ControllerInfoDefault));		//direct.html - data van het display en controller. In dit object opslaan zodat we het niet steeds hoeven uit te lezen.
 
 //nodig voor ripple_emulator
 _IS_RIPPLE_EMULATOR = $('#tinyhippos-injected').length > 0;

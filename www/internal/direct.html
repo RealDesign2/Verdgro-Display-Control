@@ -55,15 +55,6 @@
 <script src="js/jquery.smoothTouchScroll.min.js"></script>
 
 <!-- Pop up menus -->
-
-<div id="popupMenu" data-role="popup" data-theme="b">
-        <ul style="min-width: 210px;" data-role="listview" data-theme="b" data-inset="true">            
-            <li data-role="divider" data-theme="b"><span id="MenuPortalAction">Choose an action</span></li>
-            <li><a href="#" onclick="PortalGetImage();"><span id="MenuPortalToLocalLibrary">Send to local Library</span></a></li>
-            <li><a href="#" onclick="$('#popupMenu').popup('close'); sClickedImageID='';"><span id="MenuPortalCancel">Cancel</span></a></li>            
-        </ul>
-</div>
-
 <div id="popupMenuLocal" data-role="popup" data-theme="b">
         <ul style="min-width: 210px;" data-role="listview" data-theme="b" data-inset="true">            
             <li data-role="divider" data-theme="b"><span id="MenuLocalAction">Choose an action</span></li>
@@ -76,99 +67,133 @@
 
 
 <!-- /Pop up menus -->
-
-<div id="tabs" data-role="tabs">
-  <div class="ui-grid-a">
-    <div class="ui-block-a"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabOne');"><span id="DirectTabStatus">Status</span></a></div>
-    <div class="ui-block-b"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabTwo');"><span id="DirectTabEditShow">Edit Show</span></a></div>    
-</div>
-  <div class="ui-body-d ui-content" id="tabOne">    
-	
-	<div data-role="collapsible" data-collapsed="false">
-		<h3><span id="DirectCurrentShow">Current Show</span></h3>
-		<button type="button" data-icon="carat-r"   data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPlay();"><span id="DirectButtonPlay">Play</span></button>
-		<button type="button" data-icon="forbidden" data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPause();"><span id="DirectButtonPause">Pause</span></button>	
-		<div id="touchScroller">
-			<br><br><span id="DirectNoCurrentShow">No Current show available</span><br><br>
-		</div> <!-- /Touchscroller -->
+<div id="ControllerOK"> 
+	<div id="tabs" data-role="tabs">
+	  <div class="ui-grid-a">
+		<div class="ui-block-a"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabOne');"><span id="DirectTabStatus">Status</span></a></div>
+		<div class="ui-block-b"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabTwo');"><span id="DirectTabEditShow">Edit Show</span></a></div>    
+	</div>
+	  <div class="ui-body-d ui-content" id="tabOne">    
 		
-		<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="loadURL('internal/direct.html');" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>	
-		<!--
-		<button type="button" data-icon="edit" data-iconpos="left" data-mini="true" data-inline="true" onClick="confirm('Are you sure? \nThe current show will be overwritten.');"><span id="DirectButtonEditShow">Edit this show</span></button>	
-		-->
-	</div>
-	
-	<div data-role="collapsible" >
-		<h3><span id="DirectController">Controller</span></h3>
-		<table>
-			<tr>
-				<td><b><span id="StatusBrightnessMode">Brightness mode</span></b></td>
-				<td><span id="ControllerBrightnessMode">-</span></td>
-			</tr>
-			<tr>
-				<td><b><span id="StatusBrightnessValue">Brightness value</span></b></td>
-				<td><span id="ControllerBrightnessValue">-</span></td>
-			</tr>
+		<div data-role="collapsible" data-collapsed="false">
+			<h3><span id="DirectCurrentShow">Current Show</span></h3>
+			<button type="button" data-icon="carat-r"   data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPlay();"><span id="DirectButtonPlay">Play</span></button>
+			<button type="button" data-icon="forbidden" data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPause();"><span id="DirectButtonPause">Pause</span></button>	
+			<div id="touchScroller">
+				<br><br><span id="DirectNoCurrentShow">No Current show available</span><br><br>
+			</div> <!-- /Touchscroller -->
+			
+			<!--<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="loadURL('internal/direct.html');" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>-->	
+			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentShow();" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>	
 			<!--
-			<tr>
-				<td><b>Freeze</b></td>
-				<td><span id="ControllerFreeze">-</span></td>
-			</tr>
+			<button type="button" data-icon="edit" data-iconpos="left" data-mini="true" data-inline="true" onClick="confirm('Are you sure? \nThe current show will be overwritten.');"><span id="DirectButtonEditShow">Edit this show</span></button>	
 			-->
-			<tr>
-				<td><b><span id="StatusPowermode">Powermode / Pause</span></b></td>
-				<td><span id="ControllerPowerState">-</span></td>
-			</tr>
-		</table>
-		<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurentControllerStatus();"><span id="StatusControllerButtonRefresh">Refresh</span></button>		
+		</div>
+		
+		<div data-role="collapsible" >
+			<h3><span id="DirectController">Controller</span></h3>
+			<table>
+				<tr>
+					<td><b><span id="StatusBrightnessMode">Brightness mode</span></b></td>
+					<td><span id="ControllerBrightnessMode">-</span></td>
+				</tr>
+				<tr>
+					<td><b><span id="StatusBrightnessValue">Brightness value</span></b></td>
+					<td><span id="ControllerBrightnessValue">-</span></td>
+				</tr>
+				<!--
+				<tr>
+					<td><b>Freeze</b></td>
+					<td><span id="ControllerFreeze">-</span></td>
+				</tr>
+				-->
+				<tr>
+					<td><b><span id="StatusPowermode">Powermode / Pause</span></b></td>
+					<td><span id="ControllerPowerState">-</span></td>
+				</tr>
+			</table>
+			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentControllerStatus();"><span id="StatusControllerButtonRefresh">Refresh</span></button>		
+		</div>
+		
+		<div data-role="collapsible" >
+			<h3><span id="DirectDisplay">Display</span></h3>
+			<table>
+				<tr>
+					<td><b><span id="StatusDisplayName">Name</span></b></td>
+					<td>Next release</td>
+				</tr>
+				<tr>
+					<td><b><span id="StatusDisplayScreensize">Screensize (w x h)</span></b></td>
+					<td>Next release</td>
+				</tr>
+				<tr>
+					<td><b><span id="StatusDisplayPixeldetection">Pixeldetection</span></b></td>
+					<td>Not supported</td>
+				</tr>			
+			</table>
+			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick=""><span id="StatusShowButtonRefresh">Refresh</span></button>
+		</div>
+		
+	  </div>
+	  
+	  <!-- tabTwo -->
+	  <div class="ui-body-d ui-content" id="tabTwo">
+		<!-- Accordion -->
+		<div id="colShow" data-role="collapsible" data-collapsed="false">
+			<h3>Show editor</h3>
+			<div id="touchScroller2">
+				<br><br>Your show is empty<br><br>
+			</div> <!-- /Touchscroller2-->
+			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="SendShow();"><span id="ShowButtonSendShow">Send show to display and play</span></button>
+			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">Clear complete show</span></button>
+		</div>
+		<div data-role="collapsible" data-collapsed="false">
+			<h3><span id="TabLocal">Library (local)</span></h3>
+			<div id="LibraryContainer"></div>
+		</div>
+		<div data-role="collapsible" data-collapsed="false">
+			<h3><span id="TabEditText">Edit tekst image</span></h3>
+			<center>
+				<canvas id="cvText" width="80" height="80" style="border:1px solid #d3d3d3; background-color:#000000;"></canvas>
+				<br>
+				<button type="button" data-icon="carat-l" data-iconpos="notext"data-iconpos="left" data-mini="false" data-inline="true" onClick=""><span id="EditTextButtonSendShow"></span></button>
+				Line : X &nbsp;
+				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick=""><span id="EditTextButtonSendShow"></span></button>
+				<br>
+				<input type="text">
+				<select>
+					<option value="#ff0000">Red</option>
+					<option value="#00ff00">Green</option>
+					<option value="#0000ff">Blue</option>					
+				</select>
+				<select>
+					<option value="8px">Size 8</option>
+					<option value="9px">Size 9</option>
+					<option value="10px">Size 10</option>
+					<option value="11px">Size 11</option>
+					<option value="12px">Size 12</option>
+					<option value="14px">Size 14</option>
+					<option value="16px">Size 16</option>
+					<option value="18px">Size 18</option>
+					<option value="20px">Size 20</option>
+					<option value="24px">Size 24</option>
+					<option value="28px">Size 28</option>
+					<option value="32px">Size 32</option>
+					<option value="38px">Size 38</option>
+					<option value="44px">Size 44</option>					
+				</select>
+				
+			</center>
+		</div>
+	  </div>
 	</div>
-	
-	<div data-role="collapsible" >
-		<h3><span id="DirectDisplay">Display</span></h3>
-		<table>
-			<tr>
-				<td><b><span id="StatusDisplayName">Name</span></b></td>
-				<td>Next release</td>
-			</tr>
-			<tr>
-				<td><b><span id="StatusDisplayScreensize">Screensize (w x h)</span></b></td>
-				<td>Next release</td>
-			</tr>
-			<tr>
-				<td><b><span id="StatusDisplayPixeldetection">Pixeldetection</span></b></td>
-				<td>Not supported</td>
-			</tr>			
-		</table>
-		<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick=""><span id="StatusShowButtonRefresh">Refresh</span></button>
-	</div>
-	
-  </div>
-  
-  <!-- tabTwo -->
-  <div class="ui-body-d ui-content" id="tabTwo">
-	<!-- Accordion -->
-	<div id="colShow" data-role="collapsible" data-collapsed="false">
-		<h3>Show editor</h3>
-		<div id="touchScroller2">
-			<br><br>Your show is empty<br><br>
-		</div> <!-- /Touchscroller2-->
-		<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="SendShow();"><span id="ShowButtonSendShow">Send show to display and play</span></button>
-		<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">Clear complete show</span></button>
-	</div>
-	<div data-role="collapsible" data-collapsed="false">
-        <h3><span id="TabLocal">Library (local)</span></h3>
-		<div id="LibraryContainer"></div>
-    </div>
-	
-    <div data-role="collapsible">
-        <h3><span id="TabPortal">Library (portal)</span></h3>
-		<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetLibraryPortal()"><span id="ButtonRefresh">Refresh</span></button>	
-		<div id="LibraryContainerOnline"></div>
-    </div>	
-  </div>
-  
-  
-  
+</div>
+
+<div id="ControllerError">
+	<center>
+		<br/><br/><br/>
+		<span id="ControllerErrorText"></span>
+	</center>
 </div>
 
 
@@ -228,19 +253,64 @@
 	var sUser = "";
 	
 	
-	if (DirectShowTab == 'tabOne') {
-		switchTab('tabOne');
-	} else {
-		switchTab('tabTwo');
-	}
 	
-		
-	GetLibrary();					//Lokale library inlezen
-	GetCurentControllerStatus();	//Status controller ophalen	
-	GetLibraryPortal();				//portal library ophalen
-	GetCurentShow();				//Huidige show ophalen
-	WriteShow();					//Te editen show in beeld zetten.
-	 $( "#set" ).children( ":last" ).collapsible( "collapse" );
+	$("#ControllerOK").hide();
+	$("#ControllerError").show();
+	$("#ControllerErrorText").html(jLang.DirectTextCheckingController);
+	
+	
+	
+	//Testen of connecite wel goed werkt.
+	$.ajax(
+		{
+			url: GetURL('Login'),
+            encoding: 'UTF-8',
+			type: "POST",			
+			timeout: AjaxControllerTimeout,
+			async: true,
+			//crossDomain: true,
+			cache: false
+		})
+		.done(function( data ) {
+			//alert('OK');
+			//Alles is goed gegaan, Raspberry is te benaderen.
+			//overige functies uitvoeren.
+			if (DirectShowTab == 'tabOne') {
+				switchTab('tabOne');
+			} else {
+				switchTab('tabTwo');
+			}
+			GetLibrary();									//Lokale library inlezen
+			//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
+			if (DirectControllerInfo.DataCollected == false) {
+				GetCurrentControllerStatus();				//Status controller ophalen		
+				GetCurrentShow();							//Huidige show ophalen
+				DirectControllerInfo.DataCollected = true;
+			} else {
+				//we hebben de gegevens al, deze in beeld zetten.
+				WriteCurrentShow()
+				WriteCurrentController()
+			} 
+			WriteShow();					//Te editen show in beeld zetten.
+			
+			$( "#set" ).children( ":last" ).collapsible( "collapse" );
+			
+			$("#ControllerOK").show();
+			$("#ControllerError").hide();			
+		})		
+		.fail(function( jqXHR, textStatus ) {	
+			if (IsDebug == true) {
+				alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
+			} else {
+				alert("Error or Time-out");
+			}
+			$("#ControllerOK").hide();
+			$("#ControllerErrorText").show();
+			$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
+		}
+	);	
+	
+	
 	
 	//=================================================================================
 	
@@ -250,53 +320,8 @@
 		$("#" + sTab).show();
 		DirectShowTab = sTab;
 	} 
-	
-	//Functie die de library vanaf het netwerk haalt
-	function GetLibraryPortal() {	
-		//Leegmaken bibliotheek
-		$("#LibraryContainerOnline").html("");
 		
-		var url = URLPortal + "app/LibraryRead.json.asp"
-		var sResult = "";
-		//alert(url);
-		$.ajax(
-			{
-				//dataType: "json",
-				url: url,
-				encoding: "UTF-8",
-				data: {"username" : appSettings.PortalUser, "password" : appSettings.PortalPass},
-				async: false,
-				timeout: 2000,
-				cache: false
-			})
-			.done(function( data ) {
-				sResult = "";
-				sUser = data.user;	
-				if (sUser.substring(0,4) != "Unkn"){
-					if (data.files.length == 0) {
-						sResult = "<br>" + jLang.LibraryNoItems + "<br><br>"
-					} else {
-						for (var i=0;i<data.files.length;i++)
-						{ 
-							sResult = sResult + "<img src='" + URLPortal + "library/" + data.user + "/" + data.files[i].file + "' onClick='PortalImageClick(this);'  id='img" + i + "'>&nbsp;&nbsp;"
-						}
-					}
-					$("#LibraryContainerOnline").html(sResult);
-				} else {
-					$("#LibraryContainerOnline").html("<br>" + jLang.LibraryWrongCredentials + "<br><br>");
-				} 
-			})		
-			.fail(function( jqXHR, textStatus ) {
-				if (IsDebug == true) { 
-					$("#LibraryContainerOnline").html("FAILURE (GetLibraryPortal)<br/>Status : " + jqXHR.status + "<br/>Message : " + jqXHR.responseText);
-				} else {
-					$("#LibraryContainerOnline").html("<br>" + jLang.LibraryNoInternet + "<br><br>");
-				} 				
-			}		
-		);			
-	} 	
-	
-	//Toont Internet Bibliotheek
+	//Toont Interne Bibliotheek
 	function GetLibrary() {
 		var sResult = ""
 		//$("#LibraryContainer").html(appSettings.Library.length)
@@ -356,7 +381,7 @@
 				alert(jLang.LibraryShowSendedDirectly);
 				//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 				//goed gegaan, show verversen
-				GetCurentShow();
+				GetCurrentShow();
 			} else {
 				if (IsDebug==true) {
 					//gedeatileerde fout
@@ -409,7 +434,7 @@
 	} 
 	
 	//Get Current Show
-	function GetCurentShow() {	
+	function GetCurrentShow() {	
 	
 		var sURL = "";
 		var sXML = "";
@@ -442,24 +467,24 @@
 				
 				//alert(jXML.item.length);
 				//navigator.notification.alert(jXML.item.length, null, AlertTitle, 'OK');
-				var sHTML = "";
+				DirectControllerInfo.Slide = [];				//Resetten van het array van plaatjes				
 				if (IsDirectConnect == true) {
 					sURL = URLExternal.replace("<ip>", IPDirectConnect);		
 				} else {
 					sURL = URLExternal.replace("<ip>", "SomeIP");
 				} 	
 				for (var i=0;i<jXML.item.length;i++) {
-					sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:200px; margin:4px; padding:4px; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
-					sHTML = sHTML + '	<b>' + (i+1) + '.</b><br> ';
-					sHTML = sHTML + '	<img src="' + sURL +'Publish/' + jXML.item[i].fileName + '" style="max-width: 140px; max-height: 140px;"><br> ';
-					sHTML = sHTML + '	Time : ' + jXML.item[i].duration + ' sec<br>	';
-					sHTML = sHTML + '</div> ';
+					oDia = {	"path"			:  sURL + "Publish/",
+								"filename" 		: jXML.item[i].fileName,								
+								"duration"		: jXML.item[i].duration,
+								"base64"		: ""
+					}
+						
+					//slide toevoegen
+					DirectControllerInfo.Slide.push(oDia);
+					
 				}
-				$("#touchScroller").html(sHTML);
-				$("#touchScroller").smoothTouchScroll({ continuousScrolling: false, touchScrolling: true });	
-				$("#touchScroller").smoothTouchScroll("recalculateScrollableArea");						
-												
-			
+				WriteCurrentShow()
 				//alert(jXML.root);
 			})		
 			.fail(function( jqXHR, textStatus ) {	
@@ -468,36 +493,74 @@
 		);		
 	} 
 	
+	function WriteCurrentShow() {
+		//Zet de huidige show uit de player in beeld.
+		//alert(DirectControllerInfo.Slide.length);
+		var sHTML = "";			
+		for (var i=0;i<DirectControllerInfo.Slide.length;i++) {
+			sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:200px; margin:4px; padding:4px; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
+			sHTML = sHTML + '	<b>' + (i+1) + '.</b><br> ';
+			if (DirectControllerInfo.Slide[i].base64 != "") {
+				sHTML = sHTML + '	<img src="' + DirectControllerInfo.Slide[i].base64 + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br> ';
+			} else {	
+				//alert("OK")
+				sHTML = sHTML + '	<img src="' + DirectControllerInfo.Slide[i].path + DirectControllerInfo.Slide[i].filename + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br> ';
+			}
+			sHTML = sHTML + '	Time : ' + DirectControllerInfo.Slide[i].duration + ' sec<br>	';
+			sHTML = sHTML + '</div> ';
+			//alert("OK");
+		}
+		$("#touchScroller").html(sHTML);
+		$("#touchScroller").smoothTouchScroll({ continuousScrolling: false, touchScrolling: true });	
+		$("#touchScroller").smoothTouchScroll("recalculateScrollableArea");	
+	} 
+	
+	function CurrentShowImageTobase64(oImg)
+	{	//id bepalen van array, uit naam van id object
+		sID = oImg.id.replace('CurrentShowSlide', '');
+		if (DirectControllerInfo.Slide[parseInt(sID)].base64 == "") {			
+			DirectControllerInfo.Slide[parseInt(sID)].base64 = GetBase64FromImgObj(oImg)			
+			//alert("OK - " + sID); 
+		}
+	} 
 	
 	
-	function GetCurentControllerStatus() {
+	function GetCurrentControllerStatus() {
 		//navigator.notification.alert('test', null, AlertTitle, 'OK');
 		var oReturn;
 		oReturn = ControllerGetBrightness();
-		if (oReturn.OK == "true") {
-			//alert(oReturn.data.type);
-			//alert(oReturn.data.value);
-			//alert(((100/256) * parseInt(oReturn.data.value)) + '%');
-			$("#ControllerBrightnessMode").html(oReturn.data.type);
-			$("#ControllerBrightnessValue").html(((100/256) * parseInt(oReturn.data.value)) + '%');	
+		if (oReturn.OK == "true") {			
+			DirectControllerInfo.ControllerBrightnessMode = oReturn.data.type
+			DirectControllerInfo.ControllerBrightnessValue = oReturn.data.value			
 			oReturn = ControllerGetPowerState();
-			if (oReturn.OK == "true") {	
-				//if (oReturn.data == "") {
-				//	$("#ControllerPowerState").html("On");
-				//} else {
-				//	$("#ControllerPowerState").html("Off");
-				//}
-				$("#ControllerPowerState").html(oReturn.data);
-				//ControllerPowerState ControllerFreeze
-				
+			if (oReturn.OK == "true") {					
+				DirectControllerInfo.ControllerPowerMode = oReturn.data
 			} else {
 				//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
 				alert(oReturn.Data);
-			} 
+			}			
 		} else {
 			//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
 			alert(oReturn.Data);
 		} 
+		WriteCurrentController()
+	} 
+	
+	//zet de gegevens over de controller in beeld
+	function WriteCurrentController() {
+		$("#ControllerBrightnessMode").html(DirectControllerInfo.ControllerBrightnessMode);
+		$("#ControllerBrightnessValue").html(((100/256) * parseInt(DirectControllerInfo.ControllerBrightnessValue)) + '%');	
+		$("#ControllerPowerState").html(DirectControllerInfo.ControllerPowerMode);
+	} 
+	
+	function GetCurrentDisplayStatus() {	
+		//ophalen 
+		
+		WriteCurrentDisplay()
+	}
+	
+	//zet de gegevens over het display in beeld
+	function WriteCurrentDisplay() {
 	} 
 	
 	function WriteShow(refresh) {
@@ -524,9 +587,9 @@
 		$("#touchScroller2").smoothTouchScroll({ continuousScrolling: false, touchScrolling: true });
 		
 		//tijdelijke oplossing layout-verknalt na toevoegen.
-		if (refresh == true) {
-			loadURL('internal/direct.html');
-		} 
+		//if (refresh == true) {
+		//	loadURL('internal/direct.html');
+		//} 
 		//if (appSettings.Slide.length > 4) {
 			//refresh pagina ivm slide
 			//$("#colShow" ).collapsibleset().trigger('create')
@@ -550,7 +613,7 @@
 			alert(jLang.LibraryShowSendedDirectly);
 			//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 			//goed gegaan, show verversen
-			GetCurentShow();
+			GetCurrentShow();
 		} else {
 			if (IsDebug==true) {
 				//gedeatileerde fout
