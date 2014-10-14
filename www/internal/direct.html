@@ -1,58 +1,4 @@
-<!-- Slider -->
 
-<link rel="Stylesheet" type="text/css" href="css/smoothTouchScroll.css" />		
-<style type="text/css">
-
-	#touchScroller
-	{
-		width:100%;
-		height: 220px;
-		position: relative;
-	}
-		
-	#touchScroller div.scrollableArea div
-	{
-		position: relative;
-		float: left;
-		margin: 0;
-		padding: 0 5px;
-		/* If you don't want the images in the scroller to be selectable, try the following
-		   block of code. It's just a nice feature that prevent the images from
-		   accidentally becoming selected/inverted when the user interacts with the scroller. */
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-	}	
-	
-	#touchScroller2
-	{
-		width:100%;
-		height: 260px;
-		position: relative;
-	}
-		
-	#touchScroller2 div.scrollableArea div
-	{
-		position: relative;
-		float: left;
-		margin: 0;
-		padding: 0 5px;
-		/* If you don't want the images in the scroller to be selectable, try the following
-		   block of code. It's just a nice feature that prevent the images from
-		   accidentally becoming selected/inverted when the user interacts with the scroller. */
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-	}	
-</style>		
-		
-<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-<script src="js/jquery.kinetic.min.js"></script>
-<script src="js/jquery.smoothTouchScroll.min.js"></script>
 
 <!-- Pop up menus -->
 <div id="popupMenuLocal" data-role="popup" data-theme="b">
@@ -79,9 +25,9 @@
 			<h3><span id="DirectCurrentShow">Current Show</span></h3>
 			<button type="button" data-icon="carat-r"   data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPlay();"><span id="DirectButtonPlay">Play</span></button>
 			<button type="button" data-icon="forbidden" data-iconpos="left" data-mini="true" data-inline="true" onClick="QSPause();"><span id="DirectButtonPause">Pause</span></button>	
-			<div id="touchScroller">
-				<br><br><span id="DirectNoCurrentShow">No Current show available</span><br><br>
-			</div> <!-- /Touchscroller -->
+						
+			<div id="touchScroller" style="overflow: auto; overflow-y: hidden; height:235px; width:100%" >
+			</div>
 			
 			<!--<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="loadURL('internal/direct.html');" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>-->	
 			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentShow();" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>	
@@ -157,9 +103,9 @@
 		<!-- Accordion -->
 		<div id="colShow" data-role="collapsible" data-collapsed="false">
 			<h3>Show editor</h3>
-			<div id="touchScroller2">
+			<div id="touchScroller2" style="overflow: auto; overflow-y: hidden; height:275px; width:100%" >
 				<br><br>Your show is empty<br><br>
-			</div> <!-- /Touchscroller2-->
+			</div>
 			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="SendShow();"><span id="ShowButtonSendShow">Send show to display and play</span></button>
 			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">Clear complete show</span></button>
 		</div>
@@ -218,11 +164,8 @@
 	//eerste tab selecteren (#TODO)
 	$("#tabOne").addClass('ui-btn-active');
 	$("#idpage").page();
-	//Slider activeren
-	//$(function() {
-	//	$("#touchScroller").smoothTouchScroll({ continuousScrolling: false });
-	//});
 	
+		
 	
 	//Knoppen
 	$("#btnBack").show();	
@@ -522,24 +465,28 @@
 	function WriteCurrentShow() {
 		//Zet de huidige show uit de player in beeld.
 		//alert(DirectControllerInfo.Slide.length);
-		var sHTML = "";			
+		var sHTML = "";	
+		sHTML = sHTML + '<nobr>'		
 		for (var i=0;i<DirectControllerInfo.Slide.length;i++) {
-			sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:200px; margin:4px; padding:4px; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
+			sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:200px; margin:4px; padding:4px; vertical-align: middle; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
+			//sHTML = sHTML + '<div style="width:200px; height:200px; display: inline-block; vertical-align: middle; border:1px solid #000000; text-align:center;">'
 			sHTML = sHTML + '	<b>' + (i+1) + '.</b><br> ';
-			if (DirectControllerInfo.Slide[i].base64 != "") {
-				sHTML = sHTML + '	<img src="' + DirectControllerInfo.Slide[i].base64 + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br> ';
-			} else {	
-				//alert("OK")
-				sHTML = sHTML + '	<img src="' + DirectControllerInfo.Slide[i].path + DirectControllerInfo.Slide[i].filename + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br> ';
-			}
 			sHTML = sHTML + '	Time : ' + DirectControllerInfo.Slide[i].duration + ' sec<br>	';
+			if (DirectControllerInfo.Slide[i].base64 != "") {
+				sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].base64 + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
+			} else {	
+			//	//alert("OK")
+				sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].path + DirectControllerInfo.Slide[i].filename + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
+			}			
 			sHTML = sHTML + '</div> ';
-			//alert("OK");
-		}
+			//alert("OK");						
+		}	
+		sHTML = sHTML + '</nobr>'	
 		$("#touchScroller").html(sHTML);
-		$("#touchScroller").smoothTouchScroll({ continuousScrolling: false, touchScrolling: true });	
-		$("#touchScroller").smoothTouchScroll("recalculateScrollableArea");	
+		$("#touchScroller").trigger("create")		
 	} 
+	
+	
 	
 	function CurrentShowImageTobase64(oImg)
 	{	//id bepalen van array, uit naam van id object
@@ -600,8 +547,9 @@
 		var sHTML = "";
 		
 		if (appSettings.Slide.length > 0 ) {
+			sHTML = sHTML + '<nobr>'
 			for (var i=0;i<appSettings.Slide.length;i++) {
-				sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:240px; margin:4px; padding:4px; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
+				sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:240px; margin:4px; padding:4px; text-align:center; vertical-align: middle; display: inline-block; border-radius: 0.9em;"> ';
 				sHTML = sHTML + '	<b>' + (i+1) + '.</b><br> ';
 				//sHTML = sHTML + '	<img src="data:image/' + GetMimeFromUrl(appSettings.Slide[i].filename) + ';base64,'+ appSettings.Slide[i].base64 + '" style="max-width: 140px; max-height: 140px;"><br> ';				
 				sHTML = sHTML + '	<button type="button" data-icon="minus" data-iconpos="notext" data-mini="true" data-inline="true" onClick="SlideMin('+ i + ');" id="SlideTimeMin' + i + '"></button>'
@@ -610,24 +558,14 @@
 				sHTML = sHTML + '	<img src="'+ appSettings.Slide[i].base64 + '" style="max-width: 150px; max-height: 130px;"><br> ';
 				sHTML = sHTML + '   <button type="button" data-icon="delete" data-iconpos="notext" data-inline="true" onClick="DeleteSlide(' + i + ');"></button> ';
 				sHTML = sHTML + '</div> ';
-			}			
+			}	
+			sHTML = sHTML + '</nobr>'			
 		} else {
 			sHTML = '<div style="width:300px"><br><br>' + jLang.ShowNoShowAvailabe + '<br><br></div>'
 		}
 		
 		$("#touchScroller2").html(sHTML);
-		$("#touchScroller2").smoothTouchScroll({ continuousScrolling: false, touchScrolling: true });
-		
-		//tijdelijke oplossing layout-verknalt na toevoegen.
-		//if (refresh == true) {
-		//	loadURL('internal/direct.html');
-		//} 
-		//if (appSettings.Slide.length > 4) {
-			//refresh pagina ivm slide
-			//$("#colShow" ).collapsibleset().trigger('create')
-			//$("#colShow" ).trigger('create')
-			//$("#touchScroller2").smoothTouchScroll("recalculateScrollableArea");
-		//} 
+		$("#touchScroller2").trigger("create")
 	
 	} 
 	
