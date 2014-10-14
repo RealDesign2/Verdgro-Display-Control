@@ -68,7 +68,7 @@
 	"DirectController"						: "Controller",
 	"DirectDisplay"							: "Display",
 	"DirectErrorGettingPlaylist"			: "Error getting play-list",
-	"DirectTextCheckingController"			: "Getting information form LED-screen. One moment...",
+	"DirectTextCheckingController"			: "Getting information from LED-screen. One moment...",
 	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.",
 	
 	"StatusBrightnessMode"					: "Brightness mode",

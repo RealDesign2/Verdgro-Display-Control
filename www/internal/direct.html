@@ -111,8 +111,7 @@
 					<td><b><span id="StatusPowermode">Powermode / Pause</span></b></td>
 					<td><span id="ControllerPowerState">-</span></td>
 				</tr>
-			</table>
-			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentControllerStatus();"><span id="StatusControllerButtonRefresh">Refresh</span></button>		
+			</table>				
 		</div>
 		
 		<div data-role="collapsible" >
@@ -120,18 +119,35 @@
 			<table>
 				<tr>
 					<td><b><span id="StatusDisplayName">Name</span></b></td>
-					<td>Next release</td>
+					<td><span id="StatusDisplayNameValue">Getting...</span></td>
 				</tr>
 				<tr>
 					<td><b><span id="StatusDisplayScreensize">Screensize (w x h)</span></b></td>
-					<td>Next release</td>
+					<td><span id="StatusDisplayScreensizeValue">Getting...</span></td>
 				</tr>
 				<tr>
 					<td><b><span id="StatusDisplayPixeldetection">Pixeldetection</span></b></td>
 					<td>Not supported</td>
 				</tr>			
-			</table>
-			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick=""><span id="StatusShowButtonRefresh">Refresh</span></button>
+			</table>			
+		</div>
+		
+		<div data-role="collapsible" >
+			<h3><span id="DirectAdvancedSettings">Advanced settings</span></h3>
+			<table>
+				<tr>
+					<td><b><span id="StatusAdvancedSettingsUSB">USB Port</span></b></td>
+					<td><span id="StatusAdvancedSettingsUSBValue">Getting...</span></td>
+				</tr>
+				<tr>
+					<td><b><span id="StatusAdvancedSettingsOffset">Getting... (x , y)</span></b></td>
+					<td><span id="StatusAdvancedSettingsOffsetValue">Getting...</span></td>
+				</tr>
+				<tr>
+					<td><b><span id="StatusAdvancedSettingsProtocol">Protocol version</span></b></td>
+					<td><span id="StatusAdvancedSettingsProtocolValue">Getting...</span></td>
+				</tr>			
+			</table>			
 		</div>
 		
 	  </div>
@@ -275,26 +291,36 @@
 			//alert('OK');
 			//Alles is goed gegaan, Raspberry is te benaderen.
 			//overige functies uitvoeren.
+			//Ophalen van de naam van het display, indien deze anders is dan zorgen dat gegevens helemaal opnieuw worden ingelezen.
+			var sPlayerName = DirectControllerInfo.VerdegroDisplayName
+			PlayerGetVerdegroInfo(DirectControllerInfo)
+			if (DirectControllerInfo.VerdegroDisplayName != sPlayerName) {
+				//we hebben te maken met een nieuw scherm
+				DirectControllerInfo.DataCollected = false  //zorgt ervoor dat het allemaal opnieuw wordt ingelezen.
+				DirectShowTab = 'tabOne'					//zorgt ervoor dat we altijd naar de eerste tab gaan. 
+			}
 			if (DirectShowTab == 'tabOne') {
 				switchTab('tabOne');
 			} else {
 				switchTab('tabTwo');
 			}
+			
 			GetLibrary();									//Lokale library inlezen
 			//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
 			if (DirectControllerInfo.DataCollected == false) {
-				GetCurrentControllerStatus();				//Status controller ophalen		
+				GetCurrentControllerStatus();				//Status controller en player ophalen en wegzetten.
 				GetCurrentShow();							//Huidige show ophalen
-				DirectControllerInfo.DataCollected = true;
+				DirectControllerInfo.DataCollected = true;				
 			} else {
 				//we hebben de gegevens al, deze in beeld zetten.
 				WriteCurrentShow()
 				WriteCurrentController()
 			} 
+			
 			WriteShow();					//Te editen show in beeld zetten.
 			
+			//Juiste gegevens in beeld zetten.
 			$( "#set" ).children( ":last" ).collapsible( "collapse" );
-			
 			$("#ControllerOK").show();
 			$("#ControllerError").hide();			
 		})		
@@ -526,6 +552,9 @@
 	
 	
 	function GetCurrentControllerStatus() {
+		$("#ControllerOK").hide();
+		$("#ControllerError").show();
+		$("#ControllerErrorText").html(jLang.DirectTextCheckingController);
 		//navigator.notification.alert('test', null, AlertTitle, 'OK');
 		var oReturn;
 		oReturn = ControllerGetBrightness();
@@ -535,6 +564,9 @@
 			oReturn = ControllerGetPowerState();
 			if (oReturn.OK == "true") {					
 				DirectControllerInfo.ControllerPowerMode = oReturn.data
+				//We hebben de Brithtness ingelezen. Nu info uit de XML bestanden inlezen.
+				PlayerGetScreenInfo(DirectControllerInfo);			
+				PlayerGetVerdegroInfo(DirectControllerInfo);
 			} else {
 				//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
 				alert(oReturn.Data);
@@ -543,7 +575,10 @@
 			//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
 			alert(oReturn.Data);
 		} 
-		WriteCurrentController()
+		WriteCurrentController();
+		$( "#set" ).children( ":last" ).collapsible( "collapse" );
+		$("#ControllerOK").show();
+		$("#ControllerError").hide();	
 	} 
 	
 	//zet de gegevens over de controller in beeld
@@ -551,16 +586,13 @@
 		$("#ControllerBrightnessMode").html(DirectControllerInfo.ControllerBrightnessMode);
 		$("#ControllerBrightnessValue").html(((100/256) * parseInt(DirectControllerInfo.ControllerBrightnessValue)) + '%');	
 		$("#ControllerPowerState").html(DirectControllerInfo.ControllerPowerMode);
-	} 
-	
-	function GetCurrentDisplayStatus() {	
-		//ophalen 
 		
-		WriteCurrentDisplay()
-	}
-	
-	//zet de gegevens over het display in beeld
-	function WriteCurrentDisplay() {
+		$("#StatusDisplayNameValue").html(DirectControllerInfo.VerdegroDisplayName);
+		$("#StatusDisplayScreensizeValue").html(DirectControllerInfo.DisplaySizeWidth + " x " + DirectControllerInfo.DisplaySizeHeight);
+		$("#StatusAdvancedSettingsUSBValue").html(DirectControllerInfo.ControllerUSBPort);
+		$("#StatusAdvancedSettingsOffsetValue").html(DirectControllerInfo.DisplayOffsetX + "," + DirectControllerInfo.DisplayOffsetY);
+		$("#StatusAdvancedSettingsProtocolValue").html(DirectControllerInfo.VerdegroProtocolVersion);
+		
 	} 
 	
 	function WriteShow(refresh) {

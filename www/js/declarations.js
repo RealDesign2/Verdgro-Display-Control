@@ -14,12 +14,14 @@ var ControllerInfoDefault = {
 	"Slide"							: [],							//Verzameling van de huidige dia's in player(Picture en tijd)
 	"ControllerBrightnessMode" 		: "Manual",						//Controller mode van de brightness sensor
 	"ControllerBrightnessValue"		: "0",							//Controller waarde brightness sensor
-	"ControllerPowerMode"			: true,							//powermode , true is play
-	"DisplayName"					: "In development",				//Display Name
+	"ControllerPowerMode"			: true,							//powermode , true is play	
+	"ControllerUSBPort"				: "-Unknown-",					//Poort waarop USB aangesloten is.
 	"DisplaySizeWidth"				: 80,							//Display breedte
 	"DisplaySizeHeight"				: 80,							//Display hoogte
 	"DisplayOffsetX"				: 0,							//Display start voor player x
-	"DisplayOffsetY"				: 0								//Display start voor player y
+	"DisplayOffsetY"				: 0,							//Display start voor player y
+	"VerdegroDisplayName"			: "In development",				//Display Name
+	"VerdegroProtocolVersion"		: "1.0"							//Versie van het protocol
 };
 
 	

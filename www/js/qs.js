@@ -74,6 +74,72 @@ function PlayerSendPlaylist(sXML) {
 	return jResult;
 }
 
+function PlayerGetScreenInfo(ControllerInfo) {
+	//Deze functie leest het conifg.xml bestand van de player zodat we kunnen zien met wat voor scherm we te maken hebben
+	
+	$.ajax(
+		{
+			url: GetURL('config.xml'),
+            encoding: 'UTF-8',
+			type: "POST",			
+			timeout: AjaxControllerTimeout,
+			async: false,
+			//crossDomain: true,
+			cache: false
+		})
+		.done(function( data ) {
+			//windows settings
+			node = data.getElementsByTagName('window');				
+			ControllerInfo.DisplaySizeWidth = node[0].getAttribute("w");
+			ControllerInfo.DisplaySizeHeight	= node[0].getAttribute("h");
+			ControllerInfo.DisplayOffsetX = node[0].getAttribute("x");
+			ControllerInfo.DisplayOffsetY = node[0].getAttribute("y");
+			//usbsetting
+			node = data.getElementsByTagName('portName');	
+			ControllerInfo.ControllerUSBPort = node[0].getAttribute("port");
+			
+		})		
+		.fail(function( jqXHR, textStatus ) {	
+			if (IsDebug == true) {
+				alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
+			} else {
+				alert("Error getting screen info");
+			}
+		}
+	);	
+}
+
+function PlayerGetVerdegroInfo(ControllerInfo) {
+	$.ajax(
+		{
+			url: GetURL('Verdegro.xml'),
+            encoding: 'UTF-8',
+			type: "POST",			
+			timeout: AjaxControllerTimeout,
+			async: false,
+			//crossDomain: true,
+			cache: false
+		})
+		.done(function( data ) {
+			//display name
+			node = data.getElementsByTagName('DisplayName');
+			//alert(node[0].innerHTML);
+			ControllerInfo.VerdegroDisplayName = node[0].innerHTML;
+			//Protocol version
+			node = data.getElementsByTagName('ProtocolVersion');
+			//alert(node[0].innerHTML);
+			ControllerInfo.VerdegroProtocolVersion = node[0].innerHTML;				
+		})		
+		.fail(function( jqXHR, textStatus ) {	
+			if (IsDebug == true) {
+				alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
+			} else {
+				alert("Error getting screen info (vd)");
+			}
+		}
+	);	
+} 
+
 // ***** USER FUNCTIONS *****
 
 function UserLogin(sUser, sPass) {
@@ -203,7 +269,11 @@ function GetURL(sFunction)
 	} else {
 		sURL = URLExternal.replace("<ip>", "SomeIP");
 	} 	
-	sURL = sURL + sFunction + '.php'
+	//we plakken automatisch .php achter de functie tenzij we een andere extensie meegeven
+	sURL = sURL + sFunction
+	if (sFunction.indexOf(".") == -1) { 
+		sURL = sURL + '.php'
+	}
 	//alert(sURL);
 	return sURL
 } 
