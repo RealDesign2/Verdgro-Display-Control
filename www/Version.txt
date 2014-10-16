@@ -1,16 +1,19 @@
 1.0.4 - 2014-09-09 - Bram Crins - RealDesign
 ==========================================================================================
+PHONEGAP 3.6.3
 - Performance. Onderhoud bibliotheek terug naar hoofdmenu.
 - Performance. Bij ophalen gegevens wordt eerst gekeken of de controller wel gevonden kan worden. Wordt deze gevonden binnen x aantal senconden dan pas verder uitlezen van controller.
-- Performance. Controller wordt alleen de eerste keer uitgelezen. De gegevens worden opgeslagen en weer getoond indien dit nodig is. Pas bij een refresh wordt er weer gecommuniceerd met de controller.
+- Performance. Controller wordt alleen de eerste keer uitgelezen. De gegevens worden opgeslagen en weer getoond indien dit nodig is. Pas bij een refresh wordt er weer gecommuniceerd met de controller. Tevens bij detecteren andere naam display wordt een refresh gedaan. 
 - Opmaak : Betere meldingen indien er gecommuniceerd wordt met de controller
 - Nieuw : Naam en gegevens scherm worden opgehaald.
 - Nieuw : Indien direct verbonden, kan een tekstafbeelding worden gemaakt en in de lokale bibliotheek worden opgeslagen.
 - Nieuw : IOS Versie van de app
+- Nieuw : Overige gegevens worden opgehaald van controller en getoond binnen de app.
 - Update : Ivm IOS versie is controleren op nieuwe versie aangepast. (Alleen via store)
 - Nieuw : Show die nu afgespeeld wordt kan doorgezet worden naar de editor zodat deze bewerkt kan worden.
 - Wijziging : Andere techniek gebruikt voor slider. Deze moet nu ook werken met de  scrollbeweging boven naar beneden en vise versa. De vorige reageerde hier niet op.
 - Opmerking : We controleren of de controller aanwezig is door het bestand verdegro.xml op te halen. Indien dit lukt lezen we de naam van de controller uit. Indien deze naam anders is dan de vorige keer dat we contact hadden (bij openen direct.html).  Lezen we de gegevens allemaal weer opnieuw in.
+
 
 - Nieuw : IOS Versie van de app
 - Update : Ivm IOS versie is controleren op nieuwe versie aangepast. (Alleen via store)
