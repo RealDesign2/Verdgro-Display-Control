@@ -86,7 +86,7 @@
 					<td><span id="StatusAdvancedSettingsUSBValue">Getting...</span></td>
 				</tr>
 				<tr>
-					<td><b><span id="StatusAdvancedSettingsOffset">Getting... (x , y)</span></b></td>
+					<td><b><span id="StatusAdvancedSettingsOffset">Screen Offset (x , y)</span></b></td>
 					<td><span id="StatusAdvancedSettingsOffsetValue">Getting...</span></td>
 				</tr>
 				<tr>
@@ -114,36 +114,44 @@
 			<div id="LibraryContainer"></div>
 		</div>
 		<div data-role="collapsible" data-collapsed="false">
-			<h3><span id="TabEditText">Edit tekst image</span></h3>
+			<h3><span id="TabEditText">Text image creator</span></h3>
 			<center>
-				<canvas id="cvText" width="80" height="80" style="border:1px solid #d3d3d3; background-color:#000000;"></canvas>
+					<div id="work_area">
+				</div>
+						
 				<br>
-				<button type="button" data-icon="carat-l" data-iconpos="notext"data-iconpos="left" data-mini="false" data-inline="true" onClick=""><span id="EditTextButtonSendShow"></span></button>
-				Line : X &nbsp;
-				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick=""><span id="EditTextButtonSendShow"></span></button>
+				<button type="button" data-icon="carat-l" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowPrevious();"><span id="EditTextButtonSendShow">&lt;</span></button>
+				Line : <span id="TextRow">X</span> &nbsp;
+				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowNext();"><span id="EditTextButtonSendShow">&gt;</span></button>
 				<br>
-				<input type="text">
-				<select>
+				<input type="text" id="TextText" data-clear-btn="true" onKeyUp="TextRowInfoSet();" onchange="TextRowInfoSet();">
+				
+				<select id="TextColor" onChange="TextRowInfoSet();">
 					<option value="#ff0000">Red</option>
 					<option value="#00ff00">Green</option>
-					<option value="#0000ff">Blue</option>					
+					<option value="#0000ff">Blue</option>
+					<option value="#ffffff">White</option>
 				</select>
-				<select>
-					<option value="8px">Size 8</option>
-					<option value="9px">Size 9</option>
-					<option value="10px">Size 10</option>
-					<option value="11px">Size 11</option>
-					<option value="12px">Size 12</option>
-					<option value="14px">Size 14</option>
-					<option value="16px">Size 16</option>
-					<option value="18px">Size 18</option>
-					<option value="20px">Size 20</option>
-					<option value="24px">Size 24</option>
-					<option value="28px">Size 28</option>
-					<option value="32px">Size 32</option>
-					<option value="38px">Size 38</option>
-					<option value="44px">Size 44</option>					
+				
+				<select id="TextSize" onChange="TextRowInfoSet();">	  
+					<option value="8">Size 8</option>
+					<option value="9">Size 9</option>
+					<option value="10">Size 10</option>
+					<option value="11">Size 11</option>
+					<option value="12">Size 12</option>
+					<option value="14">Size 14</option>
+					<option value="16">Size 16</option>
+					<option value="18">Size 18</option>
+					<option value="20">Size 20</option>
+					<option value="24">Size 24</option>
+					<option value="28">Size 28</option>
+					<option value="32">Size 32</option>
+					<option value="38">Size 38</option>
+					<option value="44">Size 44</option>                                                                           
 				</select>
+				<br>
+				<input type="button" value="clear" onClick="TextClear();" />
+				<input type="button" value="save" onClick="TextSaveToLocalLibrary();" />
 				
 			</center>
 		</div>
@@ -210,6 +218,12 @@
 	//=================================================================================
 	var sClickedImageID = "";
 	var sUser = "";
+	var Settings = {
+				"Rows"			: [],
+				"CurrentRow"	: 0, 
+				"Width"			: 124,
+				"Height"		: 80				
+			};
 	
 	
 	
@@ -260,7 +274,8 @@
 				WriteCurrentController()
 			} 
 			
-			WriteShow();					//Te editen show in beeld zetten.
+			WriteShow();	//Te editen show in beeld zetten.			
+			TextGo();		//Teksteditor initiëren				
 			
 			//Juiste gegevens in beeld zetten.
 			$( "#set" ).children( ":last" ).collapsible( "collapse" );
@@ -624,5 +639,136 @@
 		} 
 	
 	}
+	
+	
+	//initialiseren van het scherm.
+	function TextGo() {
+		//Resize canvas naar scherm instellingen
+		$('#work_area').html();
+		var elementID = 'cvText';
+		$('<canvas>').attr({
+			id: elementID,
+			width: DirectControllerInfo.DisplaySizeWidth + 'px',
+			height: DirectControllerInfo.DisplaySizeHeight + 'px'
+		}).css({					
+			border: "1px solid black",
+			background : "#000000"		
+		}).appendTo('#work_area');
+		
+		if (appSettings.ImageText.length == 0) {
+			//Nog geen Regels gevonden. Eerste Regel aanmaken.
+			var oRow = JSON.parse(JSON.stringify(oDefaultRow)) 						
+			appSettings.ImageText.push(oRow);
+		} 
+		 
+		//Controleren of te tonen regel
+		if (appSettings.ImageTextCurrentRow+1 > appSettings.ImageText.length) { 
+			//appSettings.ImageTextCurrentRow valt buiten de scope, naar eerste dia gaan, die is er altijd want die hebben we zojuist toegevoegd.
+			appSettings.ImageTextCurrentRow = 0;					
+		} 				
+		
+		//Gegevens in beeld zetten.
+		TextRowInfoGet(appSettings.ImageTextCurrentRow);
+		
+		
+	} 
+	
+	//van bepaalde rij in beeld zetten
+	function TextRowInfoGet(iRow) {
+		$("#TextRow").html((iRow+1) + "/" + appSettings.ImageText.length);
+		$("#TextText").val(appSettings.ImageText[iRow].Text);
+		$("#TextColor").val(appSettings.ImageText[iRow].Color);
+		$("#TextSize").val(appSettings.ImageText[iRow].Size);
+		$("#TextColor").selectmenu("refresh", true);
+		$("#TextSize").selectmenu("refresh", true);
+		TextDrawRows();
+	} 			
+	
+	//Gegevens van bepaalde rij opslaan
+	function TextRowInfoSet() {
+		appSettings.ImageText[(appSettings.ImageTextCurrentRow)].Text = $("#TextText").val();
+		appSettings.ImageText[(appSettings.ImageTextCurrentRow)].Size = $("#TextSize").val();
+		appSettings.ImageText[(appSettings.ImageTextCurrentRow)].Color = $("#TextColor").val();
+		TextDrawRows();
+	} 
+	
+	//Canvas vullen met regelinformatie
+	function TextDrawRows() {
+		var iHoogte = 0;
+		var c=document.getElementById("cvText");
+		var ctx=c.getContext("2d");
+		//leegmaken 				
+		ctx.clearRect(0, 0, c.width, c.height);
+		var center = ($("#cvText").width() / 2);  //Via jquery oproepen, omdat via javascript verkeerde waarde oplevert.
+		//altijd centreren
+		ctx.textAlign = 'center';								
+		//debugger
+		for (i = 0; i < appSettings.ImageText.length; i++) { 
+			iHoogte = iHoogte + parseInt(appSettings.ImageText[i].Size, 0);
+			//Instellen formaat en kleur
+			ctx.font= appSettings.ImageText[i].Size + "px Arial";
+			ctx.fillStyle = appSettings.ImageText[i].Color;
+			//tekst plaatsen
+			ctx.fillText(appSettings.ImageText[i].Text,center ,iHoogte);
+		}
+	} 
+		
+	//Volgende regel ophalen
+	function TextRowNext() {
+		//Kijken of er een regel is anders deze aanmaken (op basis van de vorige)
+		appSettings.ImageTextCurrentRow = appSettings.ImageTextCurrentRow + 1;				
+		if (appSettings.ImageTextCurrentRow == appSettings.ImageText.length) {
+			//We moeten een nieuwe dia aanmaken
+			var oRow = JSON.parse(JSON.stringify(oDefaultRow))
+			//kopie van object aangemaakt. Gegevens van vorige regel overnemen. (behalve text)
+			oRow.Size = appSettings.ImageText[(appSettings.ImageTextCurrentRow-1)].Size;
+			oRow.Color = appSettings.ImageText[(appSettings.ImageTextCurrentRow-1)].Color;
+			appSettings.ImageText.push(oRow);
+		} 
+		//Gegevens ophalen				
+		TextRowInfoGet(appSettings.ImageTextCurrentRow);
+		window.localStorage.appSettings = JSON.stringify(appSettings); //oplsaan van de instellingen
+	} 
+	
+	//Vorige regel ophalen
+	function TextRowPrevious() {
+		//Alleen naar vorige gaan indien we nog niet op de eerste zitten.
+		if (appSettings.ImageTextCurrentRow > 0) {
+			appSettings.ImageTextCurrentRow = appSettings.ImageTextCurrentRow - 1;
+			TextRowInfoGet(appSettings.ImageTextCurrentRow);
+			window.localStorage.appSettings = JSON.stringify(appSettings); //opslaan van de instellingen
+		} 
+	} 
+	
+	//Daadwerkelijke tekst opslaan in library
+	function TextSaveToLocalLibrary() {
+		var canvas=document.getElementById("cvText");
+		//Nieuwe entry voor library maken en vullen
+		var jsonImage = { "filename": "", "base64" : ""} 
+		jsonImage.filename = "textimage.jpg"
+		jsonImage.base64 = canvas.toDataURL('image/jpeg');				//Base64 string opvragen.
+		//toevoegen aan library
+		appSettings.Library.push(jsonImage);		
+		window.localStorage.appSettings = JSON.stringify(appSettings);  //opslaan van de instellingen
+		GetLibrary()													//verversen van library
+	} 
+	
+	//Complete canvas wissen
+	function TextClear() {
+		appSettings.ImageText = []; 									//Reset array
+		var oRow = JSON.parse(JSON.stringify(oDefaultRow));				//Lege regel aanmaken	
+		appSettings.ImageText.push(oRow);								//Aan array toevoegen
+		appSettings.ImageTextCurrentRow = 0;							//Eerste regel selecteren		
+		TextRowInfoGet(appSettings.ImageTextCurrentRow);
+		window.localStorage.appSettings = JSON.stringify(appSettings);	//opslaan van de instellingen	
+		
+	} 
+	
+	//verwijderd huidige rij
+	function TextClearRow() {
+		//nog niet gemaakt.
+	}
+			
+			
 	
 </script>

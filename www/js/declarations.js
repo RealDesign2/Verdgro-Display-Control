@@ -2,12 +2,19 @@
 var appSettings = {};
 
 var appSettingsDefault = {
-	"Language"			: "EN",							//Ingestelde taal
-	"Library"			: [],							//Afbeeldingen in locale library
-	"PortalUser" 		: "",							//Gebruikersnaam Portaal
-	"PortalPass" 		: "",							//Wachtwoord Portaal
-	"Slide" 			: []							//Show die je maakt
+	"Language"				: "EN",							//Ingestelde taal
+	"Library"				: [],							//Afbeeldingen in locale library
+	"PortalUser" 			: "",							//Gebruikersnaam Portaal
+	"PortalPass" 			: "",							//Wachtwoord Portaal
+	"Slide" 				: [],							//Show die je maakt
+	"ImageText"				: [],							//Array van oDefaultRow	
+	"ImageTextCurrentRow"	: 0								//Pointer binnen de array van ImageText		
 }; 
+var oDefaultRow = { 
+	"Text" 	: "",
+	"Size" 	: 12,
+	"Color" : "#ffffff"
+} ;
 
 var ControllerInfoDefault = {
 	"DataCollected"					: false,						//Aangeven of de data al eens ingelezen is.	
