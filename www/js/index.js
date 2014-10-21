@@ -1,7 +1,7 @@
 
 //Instellingen
 
-var IsDebug = true;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
+var IsDebug = false;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
 var Versie = "1.0.4";							//Versie ook aanpassen in config.xml voor build
 var IsDirectConnect = true;						//Aangeven of we een direct connectie hebben op IP
 
