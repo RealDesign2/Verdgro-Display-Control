@@ -121,14 +121,7 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 			cache: false
 		})
 		.done(function( data ) {
-			//display name
-			node = data.getElementsByTagName('DisplayName');
-			//alert(node[0].innerHTML);
-			ControllerInfo.VerdegroDisplayName = node[0].innerHTML;
-			//Protocol version
-			node = data.getElementsByTagName('ProtocolVersion');
-			//alert(node[0].innerHTML);
-			ControllerInfo.VerdegroProtocolVersion = node[0].innerHTML;				
+			PlayerProcesVerdegroInfo(data, ControllerInfo);					
 		})		
 		.fail(function( jqXHR, textStatus ) {	
 			if (IsDebug == true) {
@@ -139,6 +132,29 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 		}
 	);	
 } 
+
+function PlayerProcesVerdegroInfo(data, ControllerInfo) {
+	var jsonVerdegroSettings = JSON.parse(JSON.stringify(VerdegroSettingsDefault));
+	
+	//TODO Kijken of elementen bestaan, anders standaard gebruiken (jsonVerdegroSettings)
+	
+	//display name
+	node = data.getElementsByTagName('DisplayName');
+	//alert(node[0].innerHTML);
+	ControllerInfo.VerdegroDisplayName = node[0].innerHTML;
+		
+	//Protocol version
+	node = data.getElementsByTagName('ProtocolVersion');
+	//alert(node[0].innerHTML);
+	ControllerInfo.VerdegroProtocolVersion = node[0].innerHTML;
+	
+	//PixelDetectionEnabled
+	node = data.getElementsByTagName('PixelDetectionEnabled');
+	//alert(node[0].innerHTML);
+	ControllerInfo.PixelDetectionEnabled = node[0].innerHTML;
+	
+}
+
 
 // ***** USER FUNCTIONS *****
 

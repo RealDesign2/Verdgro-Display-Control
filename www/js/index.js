@@ -1,7 +1,7 @@
 
 //Instellingen
 
-var IsDebug = false;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
+var IsDebug = true;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
 var Versie = "1.0.4";							//Versie ook aanpassen in config.xml voor build
 var IsDirectConnect = true;						//Aangeven of we een direct connectie hebben op IP
 
@@ -187,11 +187,11 @@ function SetDebug(DebugOn)	{
 	//Indien deze functie aan staat wordt er extra informatie getoond bij de verschillende processen.	
 	if (IsDebug == true){
 		IsDebug = false;
-		alert('Debug : Off');
+		navigator.notification.alert('Debug : Off');
 	}
 	else {
 		IsDebug = true;
-		alert('Debug : On');
+		navigator.notification.alert('Debug : On');
 	}	
 }
 
