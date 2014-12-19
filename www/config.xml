@@ -38,7 +38,8 @@
 		
 		<gap:plugin name="org.apache.cordova.file"  />
 		<gap:plugin name="org.apache.cordova.network-information"  />		
-		<gap:plugin name="org.apache.cordova.device"  />		
+		<gap:plugin name="org.apache.cordova.device"  />
+		<gap:plugin name="org.apache.cordova.dialogs"  />		
 				
 		<icon src="res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />
 		<icon src="res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
