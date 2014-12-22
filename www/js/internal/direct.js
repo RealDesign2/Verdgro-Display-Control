@@ -111,7 +111,7 @@ $.ajax(
 			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
 		} else {
 			navigator.notification.alert("~Error or Time-out", null, AlertTitle, 'OK');
-		}
+		}		
 		$("#ControllerOK").hide();
 		$("#ControllerErrorText").show();
 		$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
@@ -302,7 +302,10 @@ function CurrentShowEdit() {
 	navigator.notification.confirm(
             'You are about to leave this app and open your default web browser. Continue?', 
             function(button) {
-				alert(button);
+				//Kijken welke button geklikt is. Waarde om door te gaan als eerste opgeven.
+				//if (button == 1) {
+				//	alert('ok');
+				//} 
 			},
             'Leave App?',
             ['Ok','Cancel']
