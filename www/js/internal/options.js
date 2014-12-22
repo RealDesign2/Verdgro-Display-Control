@@ -33,7 +33,7 @@ function OptionsSaveUserPass() {
 	appSettings.PortalUser = $("#PortalUser").val();
 	appSettings.PortalPass = $("#PortalPass").val();
 	window.localStorage.appSettings = JSON.stringify(appSettings);	
-	navigator.notification.alert(jLang.OptionsPortalSaved);
+	navigator.notification.alert(jLang.OptionsPortalSaved, null, AlertTitle, 'OK');
 } 
 
 function OptionsUpdateCheck() {

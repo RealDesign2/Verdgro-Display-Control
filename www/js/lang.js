@@ -46,7 +46,7 @@ function LanguageGetFile(sLanguage) {
 			sResult = JSON.stringify(data);			
 		})		
 		.fail(function( jqXHR, textStatus ) {
-			alert("FAILURE (LanguageGetFile)<br/>Status : " + jqXHR.status + "<br/>Message : " + jqXHR.responseText);
+			navigator.notification.alert("FAILURE (LanguageGetFile)<br/>Status : " + jqXHR.status + "<br/>Message : " + jqXHR.responseText, null, AlertTitle, 'OK');
 		}		
 	);	
 	//alert(sResult);

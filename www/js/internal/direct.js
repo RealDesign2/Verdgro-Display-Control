@@ -90,11 +90,11 @@ $.ajax(
 		//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
 		if (DirectControllerInfo.DataCollected == false) {
 			GetCurrentControllerStatus();				//Status controller en player ophalen en wegzetten.
-			GetCurrentShow();							//Huidige show ophalen
+			CurrentShowGet();							//Huidige show ophalen
 			DirectControllerInfo.DataCollected = true;				
 		} else {
 			//we hebben de gegevens al, deze in beeld zetten.
-			WriteCurrentShow()
+			CurrentShowWrite()
 			WriteCurrentController()
 		} 
 		
@@ -108,17 +108,15 @@ $.ajax(
 	})		
 	.fail(function( jqXHR, textStatus ) {	
 		if (IsDebug == true) {
-			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
+			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
 		} else {
-			navigator.notification.alert("Error or Time-out");
+			navigator.notification.alert("~Error or Time-out", null, AlertTitle, 'OK');
 		}
 		$("#ControllerOK").hide();
 		$("#ControllerErrorText").show();
 		$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
 	}
 );	
-
-
 
 //=================================================================================
 
@@ -169,7 +167,7 @@ function LocalSendToShow() {
 		WriteShow(true);		
 		$('#popupMenuLocal').popup('close');
 	} else {
-		navigator.notification.alert(jLang.ShowMaxItemsReached);
+		navigator.notification.alert(jLang.ShowMaxItemsReached, null, AlertTitle, 'OK');
 	} 
 } 
 
@@ -186,16 +184,16 @@ function LocalSendToScreen() {
 		jShow.Slide[0].base64 = sB64;
 		var oResult = QSSendShow(jShow);
 		if (oResult.OK == "true") {
-			alert(jLang.LibraryShowSendedDirectly);
+			navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 			//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 			//goed gegaan, show verversen
-			GetCurrentShow();
+			CurrentShowGet();
 		} else {
 			if (IsDebug==true) {
 				//gedeatileerde fout
-				alert("Result LocalSendToScreen : " + oResult.data);
+				navigator.notification.alert("Result LocalSendToScreen : " + oResult.data, null, AlertTitle, 'OK');
 			} else {
-				alert(jLang.LibraryShowSendedDirectlyError);
+				navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');
 				//navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');	
 			}
 		}
@@ -242,7 +240,7 @@ function PortalGetImage() {
 } 
 
 //Get Current Show
-function GetCurrentShow() {	
+function CurrentShowGet() {	
 
 	var sURL = "";
 	var sXML = "";
@@ -273,8 +271,7 @@ function GetCurrentShow() {
 			//alert($(data).find("root"));
 			var jXML = $.xml2json(data, true);
 			
-			//alert(jXML.item.length);
-			//navigator.notification.alert(jXML.item.length, null, AlertTitle, 'OK');
+			//alert(jXML.item.length);			
 			DirectControllerInfo.Slide = [];				//Resetten van het array van plaatjes				
 			if (IsDirectConnect == true) {
 				sURL = URLExternal.replace("<ip>", IPDirectConnect);		
@@ -292,16 +289,28 @@ function GetCurrentShow() {
 				DirectControllerInfo.Slide.push(oDia);
 				
 			}
-			WriteCurrentShow()
+			CurrentShowWrite()
 			//alert(jXML.root);
 		})		
 		.fail(function( jqXHR, textStatus ) {	
-			navigator.notification.alert(jLang.DirectErrorGettingPlaylist);	
+			navigator.notification.alert(jLang.DirectErrorGettingPlaylist, null, AlertTitle, 'OK');	
 		}
 	);		
 } 
 
-function WriteCurrentShow() {
+function CurrentShowEdit() {
+	navigator.notification.confirm(
+            'You are about to leave this app and open your default web browser. Continue?', 
+            function(button) {
+				alert(button);
+			},
+            'Leave App?',
+            ['Ok','Cancel']
+            );
+
+} 
+
+function CurrentShowWrite() {
 	//Zet de huidige show uit de player in beeld.
 	//alert(DirectControllerInfo.Slide.length);
 	var sHTML = "";	
@@ -340,8 +349,7 @@ function CurrentShowImageTobase64(oImg)
 function GetCurrentControllerStatus() {
 	$("#ControllerOK").hide();
 	$("#ControllerError").show();
-	$("#ControllerErrorText").html(jLang.DirectTextCheckingController);
-	//navigator.notification.alert('test', null, AlertTitle, 'OK');
+	$("#ControllerErrorText").html(jLang.DirectTextCheckingController);	
 	var oReturn;
 	oReturn = ControllerGetBrightness();
 	if (oReturn.OK == "true") {			
@@ -355,11 +363,11 @@ function GetCurrentControllerStatus() {
 			PlayerGetVerdegroInfo(DirectControllerInfo);
 		} else {
 			//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
-			navigator.notification.alert(oReturn.Data);
+			navigator.notification.alert(oReturn.Data, null, AlertTitle, 'OK');
 		}			
 	} else {
 		//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
-		navigator.notification.alert(oReturn.Data);
+		navigator.notification.alert(oReturn.Data, null, AlertTitle, 'OK');
 	} 
 	WriteCurrentController();
 	$( "#set" ).children( ":last" ).collapsible( "collapse" );
@@ -419,17 +427,16 @@ function ClearShow() {
 function SendShow() {
 	var oResult = QSSendShow(appSettings);
 	if (oResult.OK == "true") {
-		alert(jLang.LibraryShowSendedDirectly);
+		navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 		//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 		//goed gegaan, show verversen
-		GetCurrentShow();
+		CurrentShowGet();
 	} else {
 		if (IsDebug==true) {
 			//gedeatileerde fout
-			alert("Result LocalSendToScreen : " + oResult.data);
+			navigator.notification.alert("Result LocalSendToScreen : " + oResult.data, null, AlertTitle, 'OK');
 		} else {
-			alert(jLang.LibraryShowSendedDirectlyError);
-			//navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');	
+			navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');			
 		}
 	}
 } 
