@@ -101,9 +101,9 @@ function PlayerGetScreenInfo(ControllerInfo) {
 		})		
 		.fail(function( jqXHR, textStatus ) {	
 			if (IsDebug == true) {
-				navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
+				alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
 			} else {
-				navigator.notification.alert("Error getting screen info", null, AlertTitle, 'OK');
+				alert("Error getting screen info");
 			}
 		}
 	);	
@@ -125,9 +125,9 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 		})		
 		.fail(function( jqXHR, textStatus ) {	
 			if (IsDebug == true) {
-				navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
+				alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
 			} else {
-				navigator.notification.alert("Error getting screen info (vd)", null, AlertTitle, 'OK');
+				alert("Error getting screen info (vd)");
 			}
 		}
 	);	
@@ -176,12 +176,12 @@ function QSPlay() {
 	if (oReturn.OK = "true") {
 		oReturn = ControllerSetLockScreen(true);
 		if (oReturn.OK = "true") {
-			//navigator.notification.alert('~succesfully send play command', null, AlertTitle, 'OK');
+			//alert('succesfully send play command');
 		} else {
-			navigator.notification.alert('~Error setting power state', null, AlertTitle, 'OK');
+			alert('Error setting power state');
 		} 
 	} else {
-		navigator.notification.alert('~Error setting power state', null, AlertTitle, 'OK');
+		alert('Error setting power state');
 	} 
 }
 
@@ -191,12 +191,12 @@ function QSPause() {
 	if (oReturn.OK = "true") {
 		oReturn = ControllerSetLockScreen(false);
 		if (oReturn.OK = "true") {
-			//alert('~succesfully send pause command');
+			//alert('succesfully send pause command');
 		} else {
-			navigator.notification.alert('~Error setting power state', null, AlertTitle, 'OK');
+			alert('Error setting power state');
 		} 
 	} else {
-		navigator.notification.alert('~Error setting power state', null, AlertTitle, 'OK');
+		alert('Error setting power state');
 	} 
 
 } 

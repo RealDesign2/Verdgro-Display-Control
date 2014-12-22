@@ -187,11 +187,11 @@ function SetDebug(DebugOn)	{
 	//Indien deze functie aan staat wordt er extra informatie getoond bij de verschillende processen.	
 	if (IsDebug == true){
 		IsDebug = false;
-		navigator.notification.alert('Debug : Off', null, AlertTitle, 'OK');
+		navigator.notification.alert('Debug : Off');
 	}
 	else {
 		IsDebug = true;
-		navigator.notification.alert('Debug : On', null, AlertTitle, 'OK');
+		navigator.notification.alert('Debug : On');
 	}	
 }
 

@@ -30,8 +30,10 @@
 			</div>
 			
 			<!--<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="loadURL('internal/direct.html');" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>-->	
-			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="CurrentShowGet();" id="cmdRefresh"><span id="DirectButtonRefresh">~Refresh</span></button>	
-			<button type="button" data-icon="edit" data-iconpos="left" data-mini="true" data-inline="true" onClick="CurrentShowEdit()"><span id="DirectButtonEditShow">Edit this show</span></button>				
+			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentShow();" id="cmdRefresh"><span id="DirectButtonRefresh">~Refresh</span></button>	
+			<!--
+			<button type="button" data-icon="edit" data-iconpos="left" data-mini="true" data-inline="true" onClick="confirm('Are you sure? \nThe current show will be overwritten.');"><span id="DirectButtonEditShow">Edit this show</span></button>	
+			-->
 		</div>
 		
 		<div data-role="collapsible" >

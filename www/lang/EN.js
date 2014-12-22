@@ -69,7 +69,7 @@
 	"DirectDisplay"							: "Display",
 	"DirectErrorGettingPlaylist"			: "Error getting play-list",
 	"DirectTextCheckingController"			: "Getting information from LED-screen. One moment...",
-	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.<br>Are you connected to the same network as the screen?",
+	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.",
 	
 	"StatusBrightnessMode"					: "Brightness mode",
 	"StatusBrightnessValue"					: "Brightness value",
