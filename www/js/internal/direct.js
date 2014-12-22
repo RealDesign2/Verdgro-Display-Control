@@ -111,7 +111,7 @@ $.ajax(
 			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
 		} else {
 			navigator.notification.alert("~Error or Time-out", null, AlertTitle, 'OK');
-		}		
+		}	
 		$("#ControllerOK").hide();
 		$("#ControllerErrorText").show();
 		$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
