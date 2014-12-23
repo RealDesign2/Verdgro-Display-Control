@@ -9,6 +9,10 @@
 	"Refresh"								: "Refresh",
 	"Save"									: "Save",
 	"AreYouSure"							: "Are you sure?",
+	"Getting"								: "Getting...",
+	"Supported"								: "Supported",
+	"NotSupported"							: "Not supported",	
+	"TimeOut"								: "Time-out",
 	
 	"BasicHome"								: "Home",
 	"BasicBack"								: "Back",
@@ -64,18 +68,32 @@
 	"DirectButtonPlay"						: "Play",
 	"DirectButtonPause"						: "Pause",
 	"DirectNoCurrentShow"					: "No current show available",	
-	"DirectButtonEditShow"					: "Edit this show",
+	"DirectButtonEditShow"					: "Send to editor",
 	"DirectController"						: "Controller",
 	"DirectDisplay"							: "Display",
 	"DirectErrorGettingPlaylist"			: "Error getting play-list",
 	"DirectTextCheckingController"			: "Getting information from LED-screen. One moment...",
-	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.",
+	"DirectTextTimeOutOrError"				: "An error or time-out occurred while connecting to LED-Screen.<br>Are you connected to the same network as the screen?",
+	"DirectCurrentShowTime"					: "Time",
+	"DirectEditThisShowWarning"				: "You will be overwriting the show which is currently being edited. Are you sure to continue?",
+	"DirectAdvancedSettings"				: "Advanced settings",
 	
 	"StatusBrightnessMode"					: "Brightness mode",
 	"StatusBrightnessValue"					: "Brightness value",
 	"StatusPowermode"						: "Power mode / Pause",
 	"StatusDisplayName"						: "Name",
 	"StatusDisplayScreensize"				: "Screen size (W x H)",
-	"StatusDisplayPixeldetection"			: "Pixel detection"
+	"StatusDisplayPixeldetection"			: "Pixel detection",
+	"StatusAdvancedSettingsUSB" 			: "USB Port",
+	"StatusAdvancedSettingsOffset" 			: "Offset (x,y)",
+	"StatusAdvancedSettingsProtocol" 		: "Protocol version",
+	
+	"EditTextSelectColor"					: [	
+											  { "value" : "#ff0000", "name" : "red"},
+											  { "value" : "#00ff00", "name" : "green"},
+											  { "value" : "#0000ff", "name" : "blue"}
+											  ],
+	"EditTextSelectSize"					: "Size"										  
+	
 	
 } 

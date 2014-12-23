@@ -17,7 +17,7 @@
 	<div id="tabs" data-role="tabs">
 	  <div class="ui-grid-a">
 		<div class="ui-block-a"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabOne');"><span id="DirectTabStatus">~Status</span></a></div>
-		<div class="ui-block-b"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabTwo');"><span id="DirectTabEditShow">~Edit Show</span></a></div>    
+		<div class="ui-block-b"><a href="#" class="ui-shadow ui-btn ui-corner-all" onClick="switchTab('tabTwo');"><span id="DirectTabEditShow">~Show</span></a></div>    
 	</div>
 	  <div class="ui-body-d ui-content" id="tabOne">    
 		
@@ -30,10 +30,8 @@
 			</div>
 			
 			<!--<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="loadURL('internal/direct.html');" id="cmdRefresh"><span id="DirectButtonRefresh">Refresh</span></button>-->	
-			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="GetCurrentShow();" id="cmdRefresh"><span id="DirectButtonRefresh">~Refresh</span></button>	
-			<!--
-			<button type="button" data-icon="edit" data-iconpos="left" data-mini="true" data-inline="true" onClick="confirm('Are you sure? \nThe current show will be overwritten.');"><span id="DirectButtonEditShow">Edit this show</span></button>	
-			-->
+			<button type="button" data-icon="refresh" data-iconpos="left" data-mini="true" data-inline="true" onClick="CurrentShowGet();" id="cmdRefresh"><span id="DirectButtonRefresh">~Refresh</span></button>	
+			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="CurrentShowEdit()"><span id="DirectButtonEditShow">~Send to editor</span></button>				
 		</div>
 		
 		<div data-role="collapsible" >
@@ -73,7 +71,7 @@
 				</tr>
 				<tr>
 					<td><b><span id="StatusDisplayPixeldetection">~Pixeldetection</span></b></td>
-					<td>~Not supported</td>
+					<td><span id="StatusDisplayPixeldetectionValue">~Not supported</span></td>
 				</tr>			
 			</table>			
 		</div>
@@ -107,7 +105,7 @@
 				<br><br>~Your show is empty<br><br>
 			</div>
 			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="SendShow();"><span id="ShowButtonSendShow">~Send show to display and play</span></button>
-			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">~Clear complete show</span></button>
+			<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">~Clear complete show</span></button>
 		</div>
 		<div data-role="collapsible" data-collapsed="false">
 			<h3><span id="TabLocal">~Library (local)</span></h3>
@@ -120,12 +118,13 @@
 				</div>
 						
 				<br>
-				<button type="button" data-icon="carat-l" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowPrevious();"><span id="EditTextButtonSendShow">&lt;</span></button>
+				<button type="button" data-icon="carat-l" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowPrevious();"></button>
 				~Line : <span id="TextRow">X</span> &nbsp;
-				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowNext();"><span id="EditTextButtonSendShow">&gt;</span></button>
+				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowNext();"></button>
 				<br>
-				<input type="text" id="TextText" data-clear-btn="true" onKeyUp="TextRowInfoSet();" onchange="TextRowInfoSet();">
-				
+				<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" data-inline="true" onClick="TextClearRow();"><span id="EditTextButtonClearRow">~Delete row</span></button>
+				<br>				
+				<input type="text" id="TextText" data-clear-btn="true" onKeyUp="TextRowInfoSet();" onchange="TextRowInfoSet();">				
 				<select id="TextColor" onChange="TextRowInfoSet();">
 					<option value="#ff0000">~Red</option>
 					<option value="#00ff00">~Green</option>
@@ -150,9 +149,8 @@
 					<option value="44">~Size 44</option>                                                                           
 				</select>
 				<br>
-				<input type="button" value="~clear" onClick="TextClear();" />
-				<input type="button" value="~save" onClick="TextSaveToLocalLibrary();" />
-				
+				<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" onClick="TextClear();"><span id="EditTextButtonClear">~Clear image</span></button>
+				<button type="button" data-icon="check" data-iconpos="left" data-mini="true" onClick="TextSaveToLocalLibrary();"><span id="EditTextButtonSave">~Save to library</span></button>							
 			</center>
 		</div>
 	  </div>

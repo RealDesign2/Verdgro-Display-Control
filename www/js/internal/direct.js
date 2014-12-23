@@ -29,7 +29,8 @@ $("#DirectNoCurrentShow").html(jLang.DirectNoCurrentShow);
 $("#DirectButtonRefresh").html(jLang.Refresh);	
 $("#DirectButtonEditShow").html(jLang.DirectButtonEditShow);
 $("#DirectController").html(jLang.DirectController);
-$("#DirectDisplay").html(jLang.DirectDisplay);	
+$("#DirectDisplay").html(jLang.DirectDisplay);
+$("#DirectAdvancedSettings").html(jLang.DirectAdvancedSettings);
 
 $("#StatusBrightnessMode").html(jLang.StatusBrightnessMode);
 $("#StatusBrightnessValue").html(jLang.StatusBrightnessValue);
@@ -39,6 +40,9 @@ $("#StatusDisplayName").html(jLang.StatusDisplayName);
 $("#StatusDisplayScreensize").html(jLang.StatusDisplayScreensize);
 $("#StatusDisplayPixeldetection").html(jLang.StatusDisplayPixeldetection);
 $("#StatusShowButtonRefresh").html(jLang.Refresh);
+$("#StatusAdvancedSettingsUSB").html(jLang.StatusAdvancedSettingsUSB);
+$("#StatusAdvancedSettingsOffset").html(jLang.StatusAdvancedSettingsOffset);
+$("#StatusAdvancedSettingsProtocol").html(jLang.StatusAdvancedSettingsProtocol);
 
 $("#ShowButtonSendShow").html(jLang.ShowButtonSendShow);
 $("#ShowButtonClearShow").html(jLang.ShowButtonClearShow);
@@ -90,11 +94,11 @@ $.ajax(
 		//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
 		if (DirectControllerInfo.DataCollected == false) {
 			GetCurrentControllerStatus();				//Status controller en player ophalen en wegzetten.
-			GetCurrentShow();							//Huidige show ophalen
+			CurrentShowGet();							//Huidige show ophalen
 			DirectControllerInfo.DataCollected = true;				
 		} else {
 			//we hebben de gegevens al, deze in beeld zetten.
-			WriteCurrentShow()
+			CurrentShowWrite()
 			WriteCurrentController()
 		} 
 		
@@ -104,21 +108,22 @@ $.ajax(
 		//Juiste gegevens in beeld zetten.
 		$( "#set" ).children( ":last" ).collapsible( "collapse" );
 		$("#ControllerOK").show();
-		$("#ControllerError").hide();			
+		$("#ControllerError").hide();
+
+		//Text opnieuw vullen
+		TextRowInfoGet(appSettings.ImageTextCurrentRow);
 	})		
 	.fail(function( jqXHR, textStatus ) {	
 		if (IsDebug == true) {
-			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText);
+			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
 		} else {
-			navigator.notification.alert("Error or Time-out");
-		}
+			navigator.notification.alert(jLang.TimeOut, null, AlertTitle, 'OK');
+		}		
 		$("#ControllerOK").hide();
 		$("#ControllerErrorText").show();
 		$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
 	}
 );	
-
-
 
 //=================================================================================
 
@@ -169,7 +174,7 @@ function LocalSendToShow() {
 		WriteShow(true);		
 		$('#popupMenuLocal').popup('close');
 	} else {
-		navigator.notification.alert(jLang.ShowMaxItemsReached);
+		navigator.notification.alert(jLang.ShowMaxItemsReached, null, AlertTitle, 'OK');
 	} 
 } 
 
@@ -186,17 +191,16 @@ function LocalSendToScreen() {
 		jShow.Slide[0].base64 = sB64;
 		var oResult = QSSendShow(jShow);
 		if (oResult.OK == "true") {
-			alert(jLang.LibraryShowSendedDirectly);
+			navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 			//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 			//goed gegaan, show verversen
-			GetCurrentShow();
+			CurrentShowGet();
 		} else {
 			if (IsDebug==true) {
 				//gedeatileerde fout
-				alert("Result LocalSendToScreen : " + oResult.data);
+				navigator.notification.alert("Result LocalSendToScreen : " + oResult.data, null, AlertTitle, 'OK');
 			} else {
-				alert(jLang.LibraryShowSendedDirectlyError);
-				//navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');	
+				navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');					
 			}
 		}
 		
@@ -242,7 +246,7 @@ function PortalGetImage() {
 } 
 
 //Get Current Show
-function GetCurrentShow() {	
+function CurrentShowGet() {	
 
 	var sURL = "";
 	var sXML = "";
@@ -273,8 +277,7 @@ function GetCurrentShow() {
 			//alert($(data).find("root"));
 			var jXML = $.xml2json(data, true);
 			
-			//alert(jXML.item.length);
-			//navigator.notification.alert(jXML.item.length, null, AlertTitle, 'OK');
+			//alert(jXML.item.length);			
 			DirectControllerInfo.Slide = [];				//Resetten van het array van plaatjes				
 			if (IsDirectConnect == true) {
 				sURL = URLExternal.replace("<ip>", IPDirectConnect);		
@@ -286,22 +289,52 @@ function GetCurrentShow() {
 							"filename" 		: jXML.item[i].fileName,								
 							"duration"		: jXML.item[i].duration,
 							"base64"		: ""
-				}
-					
+				}					
 				//slide toevoegen
-				DirectControllerInfo.Slide.push(oDia);
-				
+				DirectControllerInfo.Slide.push(oDia);				
 			}
-			WriteCurrentShow()
+			CurrentShowWrite()
 			//alert(jXML.root);
 		})		
 		.fail(function( jqXHR, textStatus ) {	
-			navigator.notification.alert(jLang.DirectErrorGettingPlaylist);	
+			navigator.notification.alert(jLang.DirectErrorGettingPlaylist, null, AlertTitle, 'OK');	
 		}
 	);		
 } 
 
-function WriteCurrentShow() {
+function CurrentShowEdit() {
+	navigator.notification.confirm(
+		jLang.DirectEditThisShowWarning, 
+		function(button) {
+			//Kijken welke button geklikt is. Waarde om door te gaan als eerste opgeven.
+			if ((button == 1) || ((typeof button == 'undefined') && (IsDebug == true))) {
+				//We hebben voor yes gekozen.				 
+				//Huidige show weghalen
+				ClearShow(false);
+				//Dia voor dia show over te zetten.
+				//appSettings.Slide -> bevat de te wijzigen show
+				//DirectControllerInfo.Slide -> bevat de huidige show				
+				for (var i=0;i<DirectControllerInfo.Slide.length;i++) {
+					oDia = {	"filename" 		: DirectControllerInfo.Slide[i].filename,
+								"base64" 		: DirectControllerInfo.Slide[i].base64,
+								"duration"		: DirectControllerInfo.Slide[i].duration}					
+					//slide toevoegen
+					appSettings.Slide.push(oDia);
+				}
+				//show opslaan
+				window.localStorage.appSettings = JSON.stringify(appSettings);
+				//verversen van show.
+				WriteShow(true);
+				//Naar edit tab gaan.
+				switchTab('tabTwo');
+			} 
+		},
+		AlertTitle,
+		[jLang.Yes, jLang.No]
+		);
+} 
+
+function CurrentShowWrite() {
 	//Zet de huidige show uit de player in beeld.
 	//alert(DirectControllerInfo.Slide.length);
 	var sHTML = "";	
@@ -310,7 +343,7 @@ function WriteCurrentShow() {
 		sHTML = sHTML + '<div style="border:1px solid #000000; width:200px; height:200px; margin:4px; padding:4px; vertical-align: middle; text-align:center; display: inline-block; border-radius: 0.9em;"> ';
 		//sHTML = sHTML + '<div style="width:200px; height:200px; display: inline-block; vertical-align: middle; border:1px solid #000000; text-align:center;">'
 		sHTML = sHTML + '	<b>' + (i+1) + '.</b><br> ';
-		sHTML = sHTML + '	Time : ' + DirectControllerInfo.Slide[i].duration + ' sec<br>	';
+		sHTML = sHTML + '	' + jLang.DirectCurrentShowTime +  ' : ' + DirectControllerInfo.Slide[i].duration + ' sec<br>	';
 		if (DirectControllerInfo.Slide[i].base64 != "") {
 			sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].base64 + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
 		} else {	
@@ -340,8 +373,7 @@ function CurrentShowImageTobase64(oImg)
 function GetCurrentControllerStatus() {
 	$("#ControllerOK").hide();
 	$("#ControllerError").show();
-	$("#ControllerErrorText").html(jLang.DirectTextCheckingController);
-	//navigator.notification.alert('test', null, AlertTitle, 'OK');
+	$("#ControllerErrorText").html(jLang.DirectTextCheckingController);	
 	var oReturn;
 	oReturn = ControllerGetBrightness();
 	if (oReturn.OK == "true") {			
@@ -355,11 +387,11 @@ function GetCurrentControllerStatus() {
 			PlayerGetVerdegroInfo(DirectControllerInfo);
 		} else {
 			//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
-			navigator.notification.alert(oReturn.Data);
+			navigator.notification.alert(oReturn.Data, null, AlertTitle, 'OK');
 		}			
 	} else {
 		//navigator.notification.alert(oReturn.Data, null, AlertTitle +  ' - ERROR', 'OK');
-		navigator.notification.alert(oReturn.Data);
+		navigator.notification.alert(oReturn.Data, null, AlertTitle, 'OK');
 	} 
 	WriteCurrentController();
 	$( "#set" ).children( ":last" ).collapsible( "collapse" );
@@ -377,7 +409,13 @@ function WriteCurrentController() {
 	$("#StatusDisplayScreensizeValue").html(DirectControllerInfo.DisplaySizeWidth + " x " + DirectControllerInfo.DisplaySizeHeight);
 	$("#StatusAdvancedSettingsUSBValue").html(DirectControllerInfo.ControllerUSBPort);
 	$("#StatusAdvancedSettingsOffsetValue").html(DirectControllerInfo.DisplayOffsetX + "," + DirectControllerInfo.DisplayOffsetY);
-	$("#StatusAdvancedSettingsProtocolValue").html(DirectControllerInfo.VerdegroProtocolVersion);
+	$("#StatusAdvancedSettingsProtocolValue").html(DirectControllerInfo.VerdegroProtocolVersion);	
+	if (DirectControllerInfo.VerdegroPixelDetectionEnabled == true) {		
+		$("#StatusDisplayPixeldetectionValue").html(jLang.Supported); 
+	} else  {
+		$("#StatusDisplayPixeldetectionValue").html(jLang.NotSupported); 
+	}
+		
 	
 } 
 
@@ -408,8 +446,15 @@ function WriteShow(refresh) {
 
 } 
 
-function ClearShow() {
-	if (confirm(jLang.AreYouSure) == true) {
+function ClearShow(oAskConfirm) {
+	oAskConfirm = (typeof oAskConfirm === "undefined") ? true : oAskConfirm;
+	var bOK = true;
+	if (oAskConfirm == true)
+	{
+		bOK = confirm(jLang.AreYouSure); 
+	} 
+	
+	if (bOK == true) {
 		appSettings.Slide = [];
 		window.localStorage.appSettings = JSON.stringify(appSettings);
 		WriteShow();
@@ -419,17 +464,16 @@ function ClearShow() {
 function SendShow() {
 	var oResult = QSSendShow(appSettings);
 	if (oResult.OK == "true") {
-		alert(jLang.LibraryShowSendedDirectly);
+		navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 		//navigator.notification.alert(jLang.LibraryShowSendedDirectly, null, AlertTitle, 'OK');
 		//goed gegaan, show verversen
-		GetCurrentShow();
+		CurrentShowGet();
 	} else {
 		if (IsDebug==true) {
 			//gedeatileerde fout
-			alert("Result LocalSendToScreen : " + oResult.data);
+			navigator.notification.alert("Result LocalSendToScreen : " + oResult.data, null, AlertTitle, 'OK');
 		} else {
-			alert(jLang.LibraryShowSendedDirectlyError);
-			//navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');	
+			navigator.notification.alert(jLang.LibraryShowSendedDirectlyError, null, AlertTitle, 'OK');			
 		}
 	}
 } 
@@ -574,7 +618,7 @@ function TextSaveToLocalLibrary() {
 	//toevoegen aan library
 	appSettings.Library.push(jsonImage);		
 	window.localStorage.appSettings = JSON.stringify(appSettings);  //opslaan van de instellingen
-	GetLibrary()													//verversen van library
+	GetLibrary();												//verversen van library
 } 
 
 //Complete canvas wissen
@@ -584,11 +628,23 @@ function TextClear() {
 	appSettings.ImageText.push(oRow);								//Aan array toevoegen
 	appSettings.ImageTextCurrentRow = 0;							//Eerste regel selecteren		
 	TextRowInfoGet(appSettings.ImageTextCurrentRow);
-	window.localStorage.appSettings = JSON.stringify(appSettings);	//opslaan van de instellingen	
-	
+	window.localStorage.appSettings = JSON.stringify(appSettings);	//opslaan van de instellingen		
 } 
 
 //verwijderd huidige rij
-function TextClearRow() {
-	//nog niet gemaakt.
+function TextClearRow() {	
+	//er moet minimaal 1 rij aanwezig blijven
+	if (appSettings.ImageText.length > 1) {		
+		appSettings.ImageText.splice(appSettings.ImageTextCurrentRow,1);
+		if (appSettings.ImageTextCurrentRow > 0) {
+			appSettings.ImageTextCurrentRow = appSettings.ImageTextCurrentRow - 1
+		} else {
+			appSettings.ImageTextCurrentRow = 0;
+		} 
+		TextRowInfoGet(appSettings.ImageTextCurrentRow);
+		window.localStorage.appSettings = JSON.stringify(appSettings);	//opslaan van de instellingen				
+	} else {
+		//laatste regel weghalen = TextClear
+		TextClear();
+	} 		
 }

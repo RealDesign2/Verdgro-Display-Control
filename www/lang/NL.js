@@ -69,7 +69,8 @@
 	"DirectDisplay"							: "Scherm",
 	"DirectErrorGettingPlaylist"			: "Fout bij ophalen huidige show",
 	"DirectTextCheckingController"			: "Communicatie met LED-Scherm bezig. Even geduld a.u.b. ...",
-	"DirectTextTimeOutOrError"				: "Er is een fout of time-out opgetreden tijdens communicatie met LED-scherm.",
+	"DirectTextTimeOutOrError"				: "Er is een fout of time-out opgetreden tijdens communicatie met LED-scherm.<br>Bent u verbonden met hetzelfde netwerk als het scherm?",
+	"DirectCurrentShowTime"					: "Time",
 	
 	"StatusBrightnessMode"					: "Lichtsensor mode",
 	"StatusBrightnessValue"					: "Lichtsensor waarde",
