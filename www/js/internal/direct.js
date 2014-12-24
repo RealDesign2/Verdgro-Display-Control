@@ -375,7 +375,7 @@ function CurrentShowWrite() {
 			sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].base64 + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
 		} else {	
 		//	//alert("OK")
-			sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].path + DirectControllerInfo.Slide[i].filename + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
+			sHTML = sHTML + '	<div><img src="' + DirectControllerInfo.Slide[i].path + DirectControllerInfo.Slide[i].filename + '?rf=' + makeid() + '" id="CurrentShowSlide' + i + '" onLoad="CurrentShowImageTobase64(this);" style="max-width: 140px; max-height: 140px;"><br></div> ';
 		}			
 		sHTML = sHTML + '</div> ';
 		//alert("OK");						

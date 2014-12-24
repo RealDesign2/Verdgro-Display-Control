@@ -330,5 +330,15 @@ function GetMimeFromUrl(sURL){
 	return sReturn
 }
 
+function makeid(intNumber){
+    intNumber = (typeof intNumber === "undefined") ? 10 : intNumber;
+	var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < intNumber; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 
