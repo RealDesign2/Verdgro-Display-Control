@@ -100,9 +100,9 @@
 	  <div class="ui-body-d ui-content" id="tabTwo">
 		<!-- Accordion -->
 		<div id="colShow" data-role="collapsible" data-collapsed="false">
-			<h3>~Show editor</h3>
+			<h3><span id="DirectShowEditor">~Show editor</span></h3>
 			<div id="touchScroller2" style="overflow: auto; overflow-y: hidden; height:275px; width:100%" >
-				<br><br>~Your show is empty<br><br>
+				
 			</div>
 			<button type="button" data-icon="action" data-iconpos="left" data-mini="true" data-inline="true" onClick="SendShow();"><span id="ShowButtonSendShow">~Send show to display and play</span></button>
 			<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" data-inline="true" onClick="ClearShow();"><span id="ShowButtonClearShow">~Clear complete show</span></button>
@@ -112,42 +112,21 @@
 			<div id="LibraryContainer"></div>
 		</div>
 		<div data-role="collapsible" data-collapsed="false">
-			<h3><span id="TabEditText">~Text image creator</span></h3>
+			<h3><span id="DirectTextEditor">~Text image creator</span></h3>
 			<center>
-					<div id="work_area">
-				</div>
+				<div id="work_area"></div>
 						
 				<br>
 				<button type="button" data-icon="carat-l" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowPrevious();"></button>
-				~Line : <span id="TextRow">X</span> &nbsp;
+				<span id="EditTextLine">~Line</span> : <span id="TextRow">X</span> &nbsp;
 				<button type="button" data-icon="carat-r" data-iconpos="notext" data-iconpos="left" data-mini="false" data-inline="true" onClick="TextRowNext();"></button>
 				<br>
 				<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" data-inline="true" onClick="TextClearRow();"><span id="EditTextButtonClearRow">~Delete row</span></button>
 				<br>				
 				<input type="text" id="TextText" data-clear-btn="true" onKeyUp="TextRowInfoSet();" onchange="TextRowInfoSet();">				
-				<select id="TextColor" onChange="TextRowInfoSet();">
-					<option value="#ff0000">~Red</option>
-					<option value="#00ff00">~Green</option>
-					<option value="#0000ff">~Blue</option>
-					<option value="#ffffff">~White</option>
-				</select>
+				<select id="TextColor" onChange="TextRowInfoSet();"></select>
 				
-				<select id="TextSize" onChange="TextRowInfoSet();">	  
-					<option value="8">~Size 8</option>
-					<option value="9">~Size 9</option>
-					<option value="10">~Size 10</option>
-					<option value="11">~Size 11</option>
-					<option value="12">~Size 12</option>
-					<option value="14">~Size 14</option>
-					<option value="16">~Size 16</option>
-					<option value="18">~Size 18</option>
-					<option value="20">~Size 20</option>
-					<option value="24">~Size 24</option>
-					<option value="28">~Size 28</option>
-					<option value="32">~Size 32</option>
-					<option value="38">~Size 38</option>
-					<option value="44">~Size 44</option>                                                                           
-				</select>
+				<select id="TextSize" onChange="TextRowInfoSet();"></select>
 				<br>
 				<button type="button" data-icon="delete" data-iconpos="left" data-mini="true" onClick="TextClear();"><span id="EditTextButtonClear">~Clear image</span></button>
 				<button type="button" data-icon="check" data-iconpos="left" data-mini="true" onClick="TextSaveToLocalLibrary();"><span id="EditTextButtonSave">~Save to library</span></button>							

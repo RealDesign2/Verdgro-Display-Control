@@ -9,6 +9,10 @@
 	"Refresh"								: "Vernieuwen",
 	"Save"									: "Opslaan",
 	"AreYouSure"							: "Weet u het zeker?",
+	"Getting"								: "Bezig...",
+	"Supported"								: "Ondersteund",
+	"NotSupported"							: "Niet Ondersteund",	
+	"TimeOut"								: "Time-out",
 	
 	"BasicHome"								: "Home",
 	"BasicBack"								: "Terug",
@@ -70,13 +74,34 @@
 	"DirectErrorGettingPlaylist"			: "Fout bij ophalen huidige show",
 	"DirectTextCheckingController"			: "Communicatie met LED-Scherm bezig. Even geduld a.u.b. ...",
 	"DirectTextTimeOutOrError"				: "Er is een fout of time-out opgetreden tijdens communicatie met LED-scherm.<br>Bent u verbonden met hetzelfde netwerk als het scherm?",
-	"DirectCurrentShowTime"					: "Time",
+	"DirectCurrentShowTime"					: "Tijd",
+	"DirectEditThisShowWarning"				: "De show die op dit moment wordt gewijzig wordt overschreven. Doorgaan?",
+	"DirectAdvancedSettings"				: "Geavanceerde instellingen",
+	"DirectShowEditor"						: "Show bewerken",
+	"DirectTextEditor"						: "Textafbeelding bewerken",
 	
 	"StatusBrightnessMode"					: "Lichtsensor mode",
 	"StatusBrightnessValue"					: "Lichtsensor waarde",
 	"StatusPowermode"						: "Powermode / Pauze",
 	"StatusDisplayName"						: "Naam",
 	"StatusDisplayScreensize"				: "Schermafmeeting (B x H)",
-	"StatusDisplayPixeldetection"			: "Pixeldetectie"
+	"StatusDisplayPixeldetection"			: "Pixeldetectie",
+	"StatusAdvancedSettingsUSB" 			: "USB Poort",
+	"StatusAdvancedSettingsOffset" 			: "Offset (x,y)",
+	"StatusAdvancedSettingsProtocol" 		: "Protocol versie",
+	
+	
+	"EditTextSelectColor"					: [	
+											  { "value" : "#ffffff", "name" : "Wit"},
+											  { "value" : "#ff0000", "name" : "Rood"},
+											  { "value" : "#00ff00", "name" : "Groen"},
+											  { "value" : "#0000ff", "name" : "Blauw"}
+											  ],
+	"EditTextSelectSize"					: "Tekstgrote",
+    "EditTextLine"							: "Regel",
+	"EditTextButtonClearRow"				: "Regel verwijderen",
+	"EditTextButtonClear"					: "Afbeelding leegmaken",	
+	"EditTextButtonSave"					: "Opslaan in bibliotheek"		
+	
 	
 } 

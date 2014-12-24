@@ -77,6 +77,8 @@
 	"DirectCurrentShowTime"					: "Time",
 	"DirectEditThisShowWarning"				: "You will be overwriting the show which is currently being edited. Are you sure to continue?",
 	"DirectAdvancedSettings"				: "Advanced settings",
+	"DirectShowEditor"						: "Show editor",
+	"DirectTextEditor"						: "Textimage editor",
 	
 	"StatusBrightnessMode"					: "Brightness mode",
 	"StatusBrightnessValue"					: "Brightness value",
@@ -88,12 +90,18 @@
 	"StatusAdvancedSettingsOffset" 			: "Offset (x,y)",
 	"StatusAdvancedSettingsProtocol" 		: "Protocol version",
 	
+	
 	"EditTextSelectColor"					: [	
-											  { "value" : "#ff0000", "name" : "red"},
-											  { "value" : "#00ff00", "name" : "green"},
-											  { "value" : "#0000ff", "name" : "blue"}
+											  { "value" : "#ffffff", "name" : "White"},
+											  { "value" : "#ff0000", "name" : "Red"},
+											  { "value" : "#00ff00", "name" : "Green"},
+											  { "value" : "#0000ff", "name" : "Blue"}
 											  ],
-	"EditTextSelectSize"					: "Size"										  
+	"EditTextSelectSize"					: "Size",
+    "EditTextLine"							: "Line",
+	"EditTextButtonClearRow"				: "Delete row",
+	"EditTextButtonClear"					: "Clear image",	
+	"EditTextButtonSave"					: "Save to library"		
 	
 	
 } 

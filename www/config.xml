@@ -2,8 +2,8 @@
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.verdegro.apps.dpc"
-		versionCode="1.0.4"
-		version   = "1.0.4">
+		versionCode="1.0.5"
+		version   = "1.0.5">
 		
 		<name>Verdegro Display Control</name>
 		<description>Mobile App verdegro.com to controll arm based displays</description>

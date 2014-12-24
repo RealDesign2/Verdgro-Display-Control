@@ -31,6 +31,8 @@ $("#DirectButtonEditShow").html(jLang.DirectButtonEditShow);
 $("#DirectController").html(jLang.DirectController);
 $("#DirectDisplay").html(jLang.DirectDisplay);
 $("#DirectAdvancedSettings").html(jLang.DirectAdvancedSettings);
+$("#DirectShowEditor").html(jLang.DirectShowEditor);
+$("#DirectTextEditor").html(jLang.DirectTextEditor);
 
 $("#StatusBrightnessMode").html(jLang.StatusBrightnessMode);
 $("#StatusBrightnessValue").html(jLang.StatusBrightnessValue);
@@ -46,6 +48,31 @@ $("#StatusAdvancedSettingsProtocol").html(jLang.StatusAdvancedSettingsProtocol);
 
 $("#ShowButtonSendShow").html(jLang.ShowButtonSendShow);
 $("#ShowButtonClearShow").html(jLang.ShowButtonClearShow);
+
+$("#EditTextLine").html(jLang.EditTextLine);
+$("#EditTextButtonClearRow").html(jLang.EditTextButtonClearRow);
+$("#EditTextButtonClear").html(jLang.EditTextButtonClear);
+$("#EditTextButtonSave").html(jLang.EditTextButtonSave);
+
+//Toevoegen van talen aan selectbox
+var select = $("#TextColor");
+$.each(jLang.EditTextSelectColor, function(index, val) {              
+	var optTempl = '<option value="' +val.value+ '">'+ val.name+'</option>';            
+	select.append(optTempl)
+});
+select.selectmenu();
+select.selectmenu('refresh', true);
+
+//Toevoegen van textgrootes aan selectbox
+select = $("#TextSize");
+$.each(EditTextTextSize, function(index, state) {              
+	var optTempl = '<option value="' +state+ '">'+ jLang.EditTextSelectSize + ' ' + state+'</option>';            
+	select.append(optTempl)
+});
+select.selectmenu();
+select.selectmenu('refresh', true);
+
+
 
 //=================================================================================
 var sClickedImageID = "";

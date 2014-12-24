@@ -1,8 +1,8 @@
 
 //Instellingen
 
-var IsDebug = true;								//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
-var Versie = "1.0.4";							//Versie ook aanpassen in config.xml voor build
+var IsDebug = false;							//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
+var Versie = "1.0.5";							//Versie ook aanpassen in config.xml voor build
 var IsDirectConnect = true;						//Aangeven of we een direct connectie hebben op IP
 
 var Title="Display Control";					//Titel die boven aan de app komt te staan
@@ -16,6 +16,8 @@ var AlertTitle = "Display Control";				//Indien er een alert wordt gegeven (via 
 var AjaxControllerTimeout = 5000;				//Tijd in ms dat een transactie naar de tekstwagen mag duren.
 var ShowDefaultSlideTime = 5;					//standaard tijd voor de dia
 var ShowDefaultSlideMax = 10;					//Maximum van aantal slides in show
+var EditTextTextSize = [8,9,10,11,12,14,16,18,20,24,28,32,38,44] //array van grootes voor de texteditor
+
 
 //Applicatie brede variabelen, maar die elke 
 //keer dat de app gestart wordt worden gereset
