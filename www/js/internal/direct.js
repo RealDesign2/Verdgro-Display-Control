@@ -199,7 +199,7 @@ function LocalSendToShow() {
 		window.localStorage.appSettings = JSON.stringify(appSettings);
 		//verversen van show.
 		WriteShow(true);		
-		$('#popupMenuLocal').popup('close');
+		$('#popupMenuLocalDirect').popup('close');
 	} else {
 		navigator.notification.alert(jLang.ShowMaxItemsReached, null, AlertTitle, 'OK');
 	} 
@@ -232,7 +232,7 @@ function LocalSendToScreen() {
 		}
 		
 	} 
-	$('#popupMenuLocal').popup('close');
+	$('#popupMenuLocalDirect').popup('close');
 }
 
 function LocalDelete() {
@@ -245,7 +245,7 @@ function LocalDelete() {
 		window.localStorage.appSettings = JSON.stringify(appSettings);	
 		GetLibrary();
 	} 
-	$('#popupMenuLocal').popup('close');
+	$('#popupMenuLocalDirect').popup('close');
 } 
 
 
@@ -253,7 +253,7 @@ function LocalImageClick(objElement) {
 	//alert(objElement.id);
 	sClickedImageID = objElement.id;
 	var p = $("#" + objElement.id); 
-	$( "#popupMenuLocal" ).popup("open", {positionTo: '#' + objElement.id });
+	$( "#popupMenuLocalDirect" ).popup("open", {positionTo: '#' + objElement.id });
 }
 
 function PortalGetImage() {
@@ -594,6 +594,9 @@ function TextDrawRows() {
 	var ctx=c.getContext("2d");
 	//leegmaken 				
 	ctx.clearRect(0, 0, c.width, c.height);
+	//achtergrond zwart maken (anders wordt dit niet meegenomen op sommige tablets)
+	ctx.fillStyle = "#000000";
+	ctx.fillRect(0, 0, c.width, c.height);
 	var center = ($("#cvText").width() / 2);  //Via jquery oproepen, omdat via javascript verkeerde waarde oplevert.
 	//altijd centreren
 	ctx.textAlign = 'center';								

@@ -1,13 +1,13 @@
 
 
 <!-- Pop up menus -->
-<div id="popupMenuLocal" data-role="popup" data-theme="b">
+<div id="popupMenuLocalDirect" data-role="popup" data-theme="b">
         <ul style="min-width: 210px;" data-role="listview" data-theme="b" data-inset="true">            
             <li data-role="divider" data-theme="b"><span id="MenuLocalAction">~Choose an action</span></li>
             <li><a href="#" onclick="LocalSendToShow();"><span id="MenuLocalToShow">~Send to show</span></a></li>
 			<li><a href="#" onclick="LocalSendToScreen();"><span id="MenuLocalToScreen">~Send direct to screen</span></a></li>
 			<li><a href="#" onclick="LocalDelete();"><span id="MenuLocalDelete">~Delete</span></a></li>
-            <li><a href="#" onclick="$('#popupMenuLocal').popup('close'); sClickedImageID='';"><span id="MenuLocalCancel">~Cancel</span></a></li>            
+            <li><a href="#" onclick="$('#popupMenuLocalDirect').popup('close'); sClickedImageID='';"><span id="MenuLocalCancel">~Cancel</span></a></li>            
         </ul>
 </div>
 
