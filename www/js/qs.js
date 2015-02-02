@@ -136,22 +136,34 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 function PlayerProcesVerdegroInfo(data, ControllerInfo) {
 	var jsonVerdegroSettings = JSON.parse(JSON.stringify(VerdegroSettingsDefault));
 	
-	//TODO Kijken of elementen bestaan, anders standaard gebruiken (jsonVerdegroSettings)
-	
 	//display name
 	node = data.getElementsByTagName('DisplayName');
-	//alert(node[0].innerHTML);
-	ControllerInfo.VerdegroDisplayName = node[0].innerHTML;
+	//alert(node[0].innerHTML);	
+	if (typeof node[0] != 'undefined') {
+		//node bestaat waarde overnemen
+		ControllerInfo.VerdegroDisplayName = node[0].innerHTML;
+	} else {	
+		ControllerInfo.VerdegroDisplayName = jsonVerdegroSettings.VerdegroDisplayName;
+	}
 		
 	//Protocol version
 	node = data.getElementsByTagName('ProtocolVersion');
-	//alert(node[0].innerHTML);
-	ControllerInfo.VerdegroProtocolVersion = node[0].innerHTML;
-	
+	//alert(node[0].innerHTML	
+	if (typeof node[0] != 'undefined') {
+		//node bestaat waarde overnemen
+		ControllerInfo.VerdegroProtocolVersion = node[0].innerHTML;
+	} else {	
+		ControllerInfo.VerdegroProtocolVersion = jsonVerdegroSettings.VerdegroProtocolVersion;
+	}
+		
 	//PixelDetectionEnabled
-	node = data.getElementsByTagName('PixelDetectionEnabled');
-	//alert(node[0].innerHTML);
-	ControllerInfo.PixelDetectionEnabled = node[0].innerHTML;
+	node = data.getElementsByTagName('PixelDetectionEnabled');	
+	if (typeof node[0] != 'undefined') {
+		//node bestaat waarde overnemen
+		ControllerInfo.PixelDetectionEnabled = node[0].innerHTML;
+	} else {	
+		ControllerInfo.PixelDetectionEnabled = jsonVerdegroSettings.PixelDetectionEnabled;
+	}
 	
 }
 
