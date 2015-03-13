@@ -3,20 +3,24 @@
 
 var IsDebug = false;							//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
 var Versie = "1.0.5";							//Versie ook aanpassen in config.xml voor build
-var IsDirectConnect = true;						//Aangeven of we een direct connectie hebben op IP
 
 var Title="Display Control";					//Titel die boven aan de app komt te staan
 var URLHomePage = "home.html";					//Homepage die standaard geopend wordt binnen de APP	
-var URLExternal = "http://<ip>/RasPi/";			//Pad naar de bestanden voor het PHP protocol
-var IPDirectConnect = "192.168.0.1";			//IP-adres wat we moeten gebruiken inden we direct connectie hebben.
-var URLPortal = "http://portal.verdegro.com/";	//URL van het portaal. Hier halen we externe informatie vandaan.
-var PHPUser = "admin"							//Gebruiker voor PHP communicatie
-var PHPPass = "12345678"						//Wachtwoord voor PHP communicatie
+var PHPURLExternal = "http://<ip>/RasPi/";		//Pad naar de bestanden voor het PHP protocol
+var PHPDirectIP = "192.168.0.1";				//IP-adres wat we moeten gebruiken inden we direct connectie hebben.
+var PHPDirectUser = "admin"						//Gebruiker voor PHP communicatie
+var PHPDirectPass = "12345678"					//Wachtwoord voor PHP communicatie
+var URLPortal = "http://cloud.verdegro.com/";	//URL van het portaal. Hier halen we externe informatie vandaan.
 var AlertTitle = "Display Control";				//Indien er een alert wordt gegeven (via phonegap). Krijgt de alertbox deze titel.
 var AjaxControllerTimeout = 5000;				//Tijd in ms dat een transactie naar de tekstwagen mag duren.
 var ShowDefaultSlideTime = 5;					//standaard tijd voor de dia
 var ShowDefaultSlideMax = 10;					//Maximum van aantal slides in show
 var EditTextTextSize = [8,9,10,11,12,14,16,18,20,24,28,32,38,44] //array van grootes voor de texteditor
+
+//Overschrijven indien test
+if (IsDebug == true) {
+	URLPortal = "http://cloudtst.verdegro.com/";
+}
 
 
 //Applicatie brede variabelen, maar die elke 
@@ -339,6 +343,15 @@ function makeid(intNumber){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
+}
+
+function SetProduct(sIP, sUser, sPass, sName) {
+	appSettings.PHPIP = sIP;
+	appSettings.PHPUser = sUser;
+	appSettings.PHPPass = sPass;
+	appSettings.PHPProductName = sName;
+	//Instellingen gedaan, nu naar controll
+	loadURL('internal/control.html');
 }
 
 

@@ -172,8 +172,8 @@ function PlayerProcesVerdegroInfo(data, ControllerInfo) {
 
 function UserLogin(sUser, sPass) {
 	//Indien geen waarden zijn meegegeven dan standaard waarden pakken
-	sUser = sUser || PHPUser;
-	sPass = sPass || PHPPass;
+	sUser = sUser || appSettings.PHPUser;
+	sPass = sPass || appSettings.PHPPass;
 	var oPost = { "userName" : sUser, "password" : sPass}
 	var jResult = SendData("Login", oPost);		
 	return jResult;
@@ -292,11 +292,7 @@ function GetURL(sFunction)
 {
 	var sURL = "";	
 	//afhankelijk van type verbinding juiste URL opbouwen.	
-	if (IsDirectConnect == true) {
-		sURL = URLExternal.replace("<ip>", IPDirectConnect);		
-	} else {
-		sURL = URLExternal.replace("<ip>", "SomeIP");
-	} 	
+	sURL = PHPURLExternal.replace("<ip>", appSettings.PHPIP);	
 	//we plakken automatisch .php achter de functie tenzij we een andere extensie meegeven
 	sURL = sURL + sFunction
 	if (sFunction.indexOf(".") == -1) { 
@@ -311,13 +307,7 @@ function SendData(sFunction, jPostData, contentType) {
 	contentType = contentType || "UTF-8"
 	var sURL = "";
 	var sXML = "nu";
-	//afhankelijk van type verbinding juiste URL opbouwen.	
-	//if (IsDirectConnect == true) {
-	//	sURL = URLExternal.replace("<ip>", IPDirectConnect);		
-	//} else {
-	//	sURL = URLExternal.replace("<ip>", "SomeIP");
-	//} 	
-	//sURL = sURL + sFunction + '.php'
+	
 	sURL = GetURL(sFunction);
 	//alert(sURL)
 	//Indien het fout gaat ook een melding van geven.

@@ -46,7 +46,7 @@ function GetLibraryPortal() {
 		.done(function( data ) {
 			sResult = "";
 			sUser = data.user;	
-			if (sUser.substring(0,4) != "Unkn"){
+			if (sUser.substring(0,6) != "Unknown"){
 				if (data.files.length == 0) {
 					sResult = "<br>" + jLang.LibraryNoItems + "<br><br>"
 				} else {

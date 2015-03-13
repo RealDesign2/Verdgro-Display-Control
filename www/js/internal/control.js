@@ -278,11 +278,7 @@ function CurrentShowGet() {
 	var sURL = "";
 	var sXML = "";
 	//afhankelijk van type verbinding juiste URL opbouwen.	
-	if (IsDirectConnect == true) {
-		sURL = URLExternal.replace("<ip>", IPDirectConnect);		
-	} else {
-		sURL = URLExternal.replace("<ip>", "SomeIP");
-	} 	
+	sURL = PHPURLExternal.replace("<ip>", appSettings.PHPIP);	
 	sURL = sURL + 'Publish/PlayList.xml'
 	//alert(sURL)
 	//Indien het fout gaat ook een melding van geven.
@@ -306,11 +302,7 @@ function CurrentShowGet() {
 			
 			//alert(jXML.item.length);			
 			DirectControllerInfo.Slide = [];				//Resetten van het array van plaatjes				
-			if (IsDirectConnect == true) {
-				sURL = URLExternal.replace("<ip>", IPDirectConnect);		
-			} else {
-				sURL = URLExternal.replace("<ip>", "SomeIP");
-			} 	
+			sURL = PHPURLExternal.replace("<ip>", appSettings.PHPIP);	
 			for (var i=0;i<jXML.item.length;i++) {
 				oDia = {	"path"			:  sURL + "Publish/",
 							"filename" 		: jXML.item[i].fileName,								

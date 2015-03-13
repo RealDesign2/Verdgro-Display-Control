@@ -8,7 +8,11 @@ var appSettingsDefault = {
 	"PortalPass" 			: "",							//Wachtwoord Portaal
 	"Slide" 				: [],							//Show die je maakt
 	"ImageText"				: [],							//Array van oDefaultRow	
-	"ImageTextCurrentRow"	: 0								//Pointer binnen de array van ImageText		
+	"ImageTextCurrentRow"	: 0,							//Pointer binnen de array van ImageText	
+	"PHPIP"					: "",							//Bevat het IP adres van het product waarmee we communiceren
+	"PHPUser"				: "",							//Bevat de naam van de gebruiker (dit kan afwijken van de standaard)
+	"PHPPass"				: "",							//Bevat het wachtwoord van de gebruiker
+	"PHPProductName"		: ""							//Naam van het product zoals extern bekend (zou moeten overeenkomen met wat intern bekend is)
 }; 
 var oDefaultRow = { 
 	"Text" 	: "",
