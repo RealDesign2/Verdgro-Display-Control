@@ -14,7 +14,7 @@ var URLPortal = "http://cloud.verdegro.com/";	//URL van het portaal. Hier halen 
 var AlertTitle = "Display Control";				//Indien er een alert wordt gegeven (via phonegap). Krijgt de alertbox deze titel.
 var AjaxControllerTimeout = 5000;				//Tijd in ms dat een transactie naar de tekstwagen mag duren.
 var ShowDefaultSlideTime = 5;					//standaard tijd voor de dia
-var ShowDefaultSlideMax = 10;					//Maximum van aantal slides in show
+var ShowDefaultSlideMax = 30;					//Maximum van aantal slides in show
 var EditTextTextSize = [8,9,10,11,12,14,16,18,20,24,28,32,38,44] //array van grootes voor de texteditor
 
 //Overschrijven indien test

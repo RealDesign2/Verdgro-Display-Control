@@ -50,6 +50,7 @@ function GetProuctsPortal() {
 						if (data.products[i].Online = "False") {
 							sStatus = 'offline';
 						} 
+						//alert(data.products[i].Online);
 						$('ul').append('<li><a href="#" onClick="SetProduct(\'' + data.products[i].IP + '\', \'' + data.products[i].PHPUser + '\', \'' + data.products[i].PHPPass + '\', \'' + data.products[i].Name + '\')"><h2>'+ data.products[i].Name + '</h2><p><img src="img/' + sStatus + '.png" title="online"> ' + data.products[i].IP + ' (' + data.products[i].ID + ')</p></a></li>');
 					}
 				}				
