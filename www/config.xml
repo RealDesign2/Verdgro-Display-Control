@@ -9,7 +9,7 @@
 		<description>Mobile App verdegro.com to controll arm based displays</description>
 		<author href="http://www.realdesign.nl" email="bcrins@realdesign.nl">RealDesign</author>
 		
-		<preference name="phonegap-version" value="3.7.0 />
+		<preference name="phonegap-version" value="3.7.0" />
 		<preference name="orientation" value="landscape" />
 		<preference name="target-device" value="universal" />
 		<preference name="fullscreen" value="false" />
