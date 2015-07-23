@@ -2,7 +2,7 @@
 //Instellingen
 
 var IsDebug = false;							//Aangeven of we in debug modes zitten, dan kunnen we ook andere melding geven
-var Versie = "1.0.5";							//Versie ook aanpassen in config.xml voor build
+var Versie = "1.0.7";							//Versie ook aanpassen in config.xml voor build
 
 var Title="Display Control";					//Titel die boven aan de app komt te staan
 var URLHomePage = "home.html";					//Homepage die standaard geopend wordt binnen de APP	

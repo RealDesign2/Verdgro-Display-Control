@@ -2,14 +2,14 @@
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.verdegro.apps.dpc"
-		versionCode="1.0.5"
-		version   = "1.0.5">
+		versionCode="1.0.7"
+		version   = "1.0.7">
 		
 		<name>Verdegro Display Control</name>
 		<description>Mobile App verdegro.com to controll arm based displays</description>
 		<author href="http://www.realdesign.nl" email="bcrins@realdesign.nl">RealDesign</author>
 		
-		<preference name="phonegap-version" value="3.6.3" />
+		<preference name="phonegap-version" value="3.7.0 />
 		<preference name="orientation" value="landscape" />
 		<preference name="target-device" value="universal" />
 		<preference name="fullscreen" value="false" />

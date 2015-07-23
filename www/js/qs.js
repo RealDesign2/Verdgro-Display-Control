@@ -62,8 +62,7 @@ function PlayerDeleteFile(sFileName) {
 function PlayerUploadFile(sFileName, sBase64) {
 	sFileName = sFileName;
 	var oPost = { "name" : sFileName, "content" : sBase64}	;
-	//alert(oPost.content);
-	//var jResult = SendData("upload", oPost);
+	//alert(oPost.content);	
 	var jResult = SendData("upload", oPost);
 	return jResult;
 } 
@@ -124,10 +123,14 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 			PlayerProcesVerdegroInfo(data, ControllerInfo);					
 		})		
 		.fail(function( jqXHR, textStatus ) {	
-			if (IsDebug == true) {
-				navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
+			if ((textStatus ==  'parsererror') && (jqXHR.statusText == "OK")) {
+				PlayerProcesVerdegroInfo(null, ControllerInfo);	
 			} else {
-				navigator.notification.alert("Error getting screen info (vd)", null, AlertTitle, 'OK');
+				if (IsDebug == true) {
+					navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
+				} else {
+					navigator.notification.alert("Error getting screen info (vd)", null, AlertTitle, 'OK');
+				}
 			}
 		}
 	);	
@@ -135,6 +138,15 @@ function PlayerGetVerdegroInfo(ControllerInfo) {
 
 function PlayerProcesVerdegroInfo(data, ControllerInfo) {
 	var jsonVerdegroSettings = JSON.parse(JSON.stringify(VerdegroSettingsDefault));
+	
+	//alert(typeof data);
+	
+	
+	if (data == null) {
+		//indien we aankomen zonder data object een leeg object aanmaken omdat we anders fouten krijgen.
+		//Indien we een leeg xml object hebben worden hieronder de defaults opgehaald en gezet.
+		data = document.implementation.createDocument(null, "root", null);		
+	} 
 	
 	//display name
 	node = data.getElementsByTagName('DisplayName');

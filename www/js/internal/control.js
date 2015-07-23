@@ -104,55 +104,68 @@ $.ajax(
 		//Alles is goed gegaan, Raspberry is te benaderen.
 		//overige functies uitvoeren.
 		//Ophalen van de naam van het display, indien deze anders is dan zorgen dat gegevens helemaal opnieuw worden ingelezen.
-		var sPlayerName = DirectControllerInfo.VerdegroDisplayName;
-		PlayerProcesVerdegroInfo(data, DirectControllerInfo);		
-		if (DirectControllerInfo.VerdegroDisplayName != sPlayerName) {
-			//we hebben te maken met een nieuw scherm
-			DirectControllerInfo.DataCollected = false  //zorgt ervoor dat het allemaal opnieuw wordt ingelezen.
-			DirectShowTab = 'tabOne'					//zorgt ervoor dat we altijd naar de eerste tab gaan. 
-		}
-		if (DirectShowTab == 'tabOne') {
-			switchTab('tabOne');
-		} else {
-			switchTab('tabTwo');
-		}
+		InitScreen(data)
 		
-		GetLibrary();									//Lokale library inlezen
-		//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
-		if (DirectControllerInfo.DataCollected == false) {
-			GetCurrentControllerStatus();				//Status controller en player ophalen en wegzetten.
-			CurrentShowGet();							//Huidige show ophalen
-			DirectControllerInfo.DataCollected = true;				
-		} else {
-			//we hebben de gegevens al, deze in beeld zetten.
-			CurrentShowWrite()
-			WriteCurrentController()
-		} 
-		
-		WriteShow();	//Te editen show in beeld zetten.			
-		TextGo();		//Teksteditor initiëren				
-		
-		//Juiste gegevens in beeld zetten.
-		$( "#set" ).children( ":last" ).collapsible( "collapse" );
-		$("#ControllerOK").show();
-		$("#ControllerError").hide();
-
-		//Text opnieuw vullen
-		TextRowInfoGet(appSettings.ImageTextCurrentRow);
 	})		
 	.fail(function( jqXHR, textStatus ) {	
-		if (IsDebug == true) {
-			navigator.notification.alert("AjaxError : \n" + textStatus + "\n" + jqXHR.statusText + "\n" + jqXHR.responseText, null, AlertTitle, 'OK');
+		if ((textStatus ==  'parsererror') && (jqXHR.statusText == "OK")) {
+			InitScreen(null);
 		} else {
-			navigator.notification.alert(jLang.TimeOut, null, AlertTitle, 'OK');
-		}		
-		$("#ControllerOK").hide();
-		$("#ControllerErrorText").show();
-		$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);
+			if (IsDebug == true) {
+				navigator.notification.alert("AjaxError : \n ts : " + textStatus + "\n st : " + jqXHR.statusText + "\n rt : " + jqXHR.responseText, null, AlertTitle, 'OK');
+			} else {
+				navigator.notification.alert(jLang.TimeOut, null, AlertTitle, 'OK');
+			}		
+			$("#ControllerOK").hide();
+			$("#ControllerErrorText").show();
+			$("#ControllerErrorText").html(jLang.DirectTextTimeOutOrError);			
+		} 
 	}
 );	
 
+
+
+
 //=================================================================================
+
+function InitScreen(data) {
+	var sPlayerName = DirectControllerInfo.VerdegroDisplayName;
+	PlayerProcesVerdegroInfo(data, DirectControllerInfo);		
+	if (DirectControllerInfo.VerdegroDisplayName != sPlayerName) {
+		//we hebben te maken met een nieuw scherm
+		DirectControllerInfo.DataCollected = false  //zorgt ervoor dat het allemaal opnieuw wordt ingelezen.
+		DirectShowTab = 'tabOne'					//zorgt ervoor dat we altijd naar de eerste tab gaan. 
+	}
+	if (DirectShowTab == 'tabOne') {
+		switchTab('tabOne');
+	} else {
+		switchTab('tabTwo');
+	}
+	
+	GetLibrary();									//Lokale library inlezen
+	//Alleen de eerste keer automatisch gegevens inlezen, daarna altijd via refresh 
+	if (DirectControllerInfo.DataCollected == false) {
+		GetCurrentControllerStatus();				//Status controller en player ophalen en wegzetten.
+		CurrentShowGet();							//Huidige show ophalen
+		DirectControllerInfo.DataCollected = true;				
+	} else {
+		//we hebben de gegevens al, deze in beeld zetten.
+		CurrentShowWrite()
+		WriteCurrentController()
+	} 
+	
+	WriteShow();	//Te editen show in beeld zetten.			
+	TextGo();		//Teksteditor initiëren				
+	
+	//Juiste gegevens in beeld zetten.
+	$( "#set" ).children( ":last" ).collapsible( "collapse" );
+	$("#ControllerOK").show();
+	$("#ControllerError").hide();
+
+	//Text opnieuw vullen
+	TextRowInfoGet(appSettings.ImageTextCurrentRow);
+}
+
 
 function switchTab(sTab) {
 	$("#tabOne").hide();
